@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PROJECT SUROKKHA-X - www.projectsurokkhax.com</title>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT SUROKKHA-X</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#080808;color:#fff;font-family:monospace;display:flex;flex-direction:column;align-items:center;padding:20px}
-.vault{width:100%;max-width:420px;background:#111;border:1px solid #1e1e1e;border-radius:18px;padding:18px;text-align:center}
-h1{color:#00ff88}input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #333;background:#000;color:#fff}
-button{width:100%;padding:12px;background:#00ff88;color:#000;font-weight:bold;border:none;border-radius:10px;cursor:pointer}
-a{color:#00ff88}
-</style></head><body>
-<div class="vault">
+body{margin:0;background:#000;color:#fff;font-family:monospace;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.box{border:1px solid #222;background:#0a0a0a;padding:24px;border-radius:16px;width:92%;max-width:400px;text-align:center}
+h1{color:#00ff88;margin:0 0 8px}
+input{width:100%;padding:14px;margin:12px 0;border-radius:10px;border:1px solid #333;background:#000;color:#fff}
+button{width:100%;padding:14px;background:#00ff88;color:#000;font-weight:900;border:none;border-radius:10px}
+a{color:#00ff88;text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+<div class="box">
 <h1>🔐 PROJECT SUROKKHA-X</h1>
 <p>www.projectsurokkhax.com<br>3D SECURE VAULT</p>
 <p style="color:#00ff88">LIVE ON VERCEL ✅</p>
-<input id="pin" type="password" placeholder="Enter Vault PIN">
-<button onclick="if(document.getElementById('pin').value){localStorage.setItem('vault','open');location.href='/backup/'}else{alert('PIN দাও!')}">UNLOCK VAULT</button>
-<div style="margin-top:14px"><a href="/backup/">Backup</a> | <a href="/permanent/">Permanent</a></div>
+<input id="pin" placeholder="Enter PIN" type="password">
+<button onclick="let v=document.getElementById('pin').value;if(!v){alert('PIN দাও');return}localStorage.setItem('psx','1');alert('Vault Unlocked!');location.href='/backup/'">UNLOCK VAULT</button>
+<div style="margin-top:16px"><a href="/backup/">Backup</a> | <a href="/permanent/">Permanent</a></div>
+<p style="font-size:11px;color:#666;margin-top:12px">Deployed: 74af28f Fix</p>
 </div>
-<script>
-if(localStorage.getItem('vault')==='open'){document.body.innerHTML='<h1>✅ Vault Unlocked</h1><p><a href=/backup/>Go to Backup</a></p><p><a href=/permanent/>Go to Permanent</a></p>'}
-</script>
-</body></html>
+</body>
+</html>
