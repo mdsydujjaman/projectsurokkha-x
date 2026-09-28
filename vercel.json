@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/backup/:path*", "destination": "/backup/:path*" },
+    { "source": "/permanent/:path*", "destination": "/permanent/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
