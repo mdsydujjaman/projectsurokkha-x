@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT SUROKKHA-X</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:monospace;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.box{border:1px solid #222;background:#0a0a0a;padding:24px;border-radius:16px;width:92%;max-width:400px;text-align:center}
+h1{color:#00ff88;margin:0 0 8px}
+input{width:100%;padding:14px;margin:12px 0;border-radius:10px;border:1px solid #333;background:#000;color:#fff}
+button{width:100%;padding:14px;background:#00ff88;color:#000;font-weight:900;border:none;border-radius:10px}
+a{color:#00ff88;text-decoration:none;margin:0 8px}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>🔐 PROJECT SUROKKHA-X</h1>
+<p>www.projectsurokkhax.com<br>3D SECURE VAULT</p>
+<p style="color:#00ff88">LIVE ON VERCEL ✅</p>
+<input id="pin" placeholder="Enter PIN" type="password">
+<button onclick="let v=document.getElementById('pin').value;if(!v){alert('PIN দাও');return}localStorage.setItem('psx','1');alert('Vault Unlocked!');location.href='/backup/'">UNLOCK VAULT</button>
+<div style="margin-top:16px"><a href="/backup/">Backup</a> | <a href="/permanent/">Permanent</a></div>
+<p style="font-size:11px;color:#666;margin-top:12px">Deployed: 74af28f Fix</p>
+</div>
+</body>
+</html>
