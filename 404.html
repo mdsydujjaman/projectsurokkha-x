@@ -1,42 +1,87 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PROJECT SUROKKHA-X - 3D SECURE VAULT</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;color:#fff;font-family:monospace;padding:12px}
-.header{text-align:center;padding:20px;border:1px solid #222;border-radius:16px;background:#111;margin-bottom:16px}
-.header h1{font-size:28px;letter-spacing:2px}.header h1 span{color:#00ff88}
-.badge{display:inline-block;background:#222;border-radius:999px;padding:6px 18px;font-size:12px;margin:12px 0;border:1px solid #333}
-.green{color:#00ff88}.red{color:#ff4444}
-.card{background:#111;border:1px solid #222;border-radius:16px;padding:16px;margin-bottom:16px}
-.card h3{font-size:14px;margin-bottom:12px;letter-spacing:1px}
-.btn{width:100%;padding:14px;border-radius:12px;border:none;font-weight:900;cursor:pointer;font-family:monospace;letter-spacing:1px}
-.btn-green{background:#00ff88;color:#000}.btn-purple{background:#8b5cf6;color:#fff}.btn-dark{background:#1a1a1a;color:#fff;border:1px solid #333}
-.btn-red{border:1px solid #ff4444;color:#ff4444;background:#1a0a0a}.btn-outline{border:1px solid #8b5cf6;color:#8b5cf6;background:#110a1a}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.small{font-size:11px;color:#00ff88;margin-top:8px}
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PROJECT SUROKKHA-X - FINAL DASHBOARD LOCKED</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050507;color:#e5e7eb;font-family:JetBrains Mono,monospace;padding:12px}
+.hdr{border:1px solid #1f2937;background:linear-gradient(180deg,#111827,#0a0a0a);border-radius:20px;padding:22px;text-align:center;margin-bottom:14px}
+.hdr h1{font-size:30px;letter-spacing:3px} .h1g{color:#00ff88}
+.badge{display:inline-flex;gap:8px;align-items:center;background:#111;border:1px solid #333;border-radius:999px;padding:6px 14px;font-size:11px;margin-top:10px}
+.dot{width:8px;height:8px;background:#00ff88;border-radius:50%;box-shadow:0 0 8px #00ff88}
+.flow{border:1px dashed #333;background:#0a0a0a;border-radius:14px;padding:10px;font-size:10px;line-height:18px;color:#9ca3af;margin-top:12px;text-align:left}
+.card{background:#101010;border:1px solid #222;border-radius:18px;padding:16px;margin-bottom:12px}
+.card h3{font-size:13px;letter-spacing:1px;margin-bottom:12px;color:#fff}
+.btn{width:100%;padding:13px;border-radius:12px;border:none;font-weight:900;cursor:pointer;letter-spacing:1px}
+.g{background:#00ff88;color:#000} .p{background:#8b5cf6;color:#fff} .d{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a} .r{background:#1a0a0a;color:#ff4444;border:1px solid #442222} .o{background:#110a1a;color:#8b5cf6;border:1px solid #3a2a5a}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .grid1{display:grid;gap:10px}
+.mono{font-size:11px;color:#9ca3af;margin-top:8px;word-break:break-all} .ok{color:#00ff88} .warn{color:#fbbf24}
+.sel{width:100%;background:#0a0a0a;border:1px solid #333;color:#fff;padding:10px;border-radius:10px;font-size:12px}
 </style></head><body>
-<div class="header">
-<div style="font-size:32px">🔐 PROJECT <span>SUROKKHA-X</span></div>
-<div class="badge">UNLOCKED 🔓</div>
-<div class="green" style="margin-top:8px">www.projectsurokkhax.com<br>3D SECURE VAULT</div>
-<div class="red" style="margin-top:8px;font-size:12px">Permanent Status: NOT CREATED</div>
+<div class="hdr">
+<div style="font-size:28px">🔐 PROJECT <span class="h1g">SUROKKHA-X</span></div>
+<div class="badge"><span class="dot"></span> FINAL DASHBOARD — LOCKED</div>
+<div style="font-size:11px;color:#00ff88;margin-top:8px">www.projectsurokkhax.com | 3D SECURE VAULT</div>
+<div class="flow">
+<b style="color:#fff">⚙️ AUTOMATIC LOGIC — LOCKED</b><br>
+SECURE BACKUP ↓ BACKUP HASH ↓ HISTORY ↓ BACKUP LIVE ↓ SELECT CHECKPOINT ↓ VERIFY ↓ CONFIRM PERMANENT ↓ PERMANENT SAVE ↓ AUTO DEPLOYMENT ↓ PERMANENT LIVE<br><br>
+<b style="color:#fff">🔒 SECURITY RULE — LOCKED</b><br>
+TERMUX → BACKUP ✅ | TERMUX → PERMANENT ❌<br>SUROKKHA → VERIFY → USER CONFIRM → PERMANENT ✅ → AUTO DEPLOY → PERMANENT LIVE<br><br>
+<b class="warn">Permanent Hash:</b> প্রথম Permanent এর আগে OK, Permanent এর পর সিস্টেম নিজেই Permanent Hash তৈরি করবে।<br>
+Backup Live ও Permanent Live অবশ্যই আলাদা URL
+</div>
 </div>
 
-<div class="card"><h3>01 — BACKUP</h3><button class="btn btn-green" onclick="alert('Backup Secured!')">[ SECURE BACKUP NOW ]</button></div>
+<div class="card"><h3>01 — BACKUP → Secure Backup</h3><button class="btn g" onclick="secureBackup()">[ SECURE BACKUP NOW ]</button><div id="bHash" class="mono">No backup yet</div></div>
 
-<div class="card"><h3>02 — HISTORY + HASH</h3><button class="btn btn-dark" onclick="location.reload()">[ REFRESH ]</button><div class="small" id="hash">No backup</div></div>
+<div class="card"><h3>02 — HISTORY + HASH → Backup history + hash</h3><button class="btn d" onclick="refreshHistory()">[ REFRESH ]</button><div id="history" class="mono">No backup</div></div>
 
-<div class="card"><h3>03 — LIVE BUTTONS</h3><div class="grid2">
-<button class="btn btn-green" onclick="window.open('https://mdsydujjaman.github.io/projectsurokkha-x/','_blank')">[ 🟢 BACKUP LIVE ]</button>
-<button class="btn btn-purple" onclick="window.open('https://mdsydujjaman.github.io/projectsurokkha-x/','_blank')">[ 🟣 PERMANENT LIVE ]</button>
-</div></div>
+<div class="card"><h3>03 — LIVE BUTTONS → Backup Live + Permanent Live (আলাদা URL)</h3><div class="grid2">
+<button class="btn g" onclick="window.open('https://mdsydujjaman.github.io/projectsurokkha-x/backup/','_blank')">[ 🟢 BACKUP LIVE ]</button>
+<button class="btn p" onclick="window.open('https://mdsydujjaman.github.io/projectsurokkha-x/permanent/','_blank')">[ 🟣 PERMANENT LIVE ]</button>
+</div><div class="mono">Backup Live: /backup/ | Permanent Live: /permanent/ — আলাদা URL ✅</div></div>
 
-<div class="card"><h3>04 — LOCK BUTTONS</h3><div class="grid2">
-<button class="btn btn-red" onclick="lock()">[ 🔒 LOCK ]</button>
-<button class="btn btn-outline" onclick="unlock()">[ 🔓 UNLOCK ]</button>
-</div><div class="small">Status: UNLOCKED 🔓</div></div>
+<div class="card"><h3>04 — LOCK BUTTONS → Lock/Unlock</h3><div class="grid2"><button class="btn r" onclick="doLock()">[ 🔒 LOCK ]</button><button class="btn o" onclick="doUnlock()">[ 🔓 UNLOCK ]</button></div><div id="lockStatus" class="mono ok">Status: UNLOCKED 🔓</div></div>
+
+<div class="card"><h3>05 — PERMANENT → Checkpoint/File নির্বাচন + Permanent confirmation</h3>
+<select id="chk" class="sel"><option>No checkpoint — Create backup first</option></select>
+<div style="margin-top:10px" class="grid1"><button class="btn p" onclick="confirmPermanent()">[ CONFIRM PERMANENT ]</button></div>
+<div id="pStatus" class="mono">Permanent Status: NOT CREATED</div>
+</div>
+
+<div class="card"><h3>06 — VERIFY HASH → Backup Hash ↔ Permanent Hash verification</h3>
+<div class="grid2"><button class="btn d" onclick="verifyHash()">[ VERIFY HASH ]</button><button class="btn d" onclick="autoDeploy()">[ AUTO DEPLOY ]</button></div>
+<div id="vStatus" class="mono">Verification: Pending</div>
+</div>
 
 <script>
-function lock(){document.body.innerHTML='<div style=\"height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:monospace;flex-direction:column\"><h1>🔒 VAULT LOCKED</h1><button onclick=\"location.reload()\" style=\"margin-top:20px;padding:12px 24px;background:#00ff88;border:none;border-radius:8px;font-weight:900\">[ UNLOCK ]</button></div>'}
-function unlock(){alert('Already UNLOCKED')}
+let backups=JSON.parse(localStorage.getItem('sx_backups')||'[]');
+function hash(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);return Math.abs(h).toString(16).toUpperCase()}
+function secureBackup(){
+  let data='SUROKKHA-X-'+Date.now();let h=hash(data);
+  backups.unshift({id:Date.now(),hash:h,data:[STRIPPED]'sx_backups',JSON.stringify(backups));
+  document.getElementById('bHash').innerHTML='<span class=ok>BACKUP HASH: '+h+'</span><br>History → Backup Live → Select Checkpoint';
+  refreshHistory();alert('✅ SECURE BACKUP DONE\nHASH: '+h+'\n→ HISTORY → BACKUP LIVE');
+}
+function refreshHistory(){
+  if(!backups.length){document.getElementById('history').innerHTML='No backup';document.getElementById('chk').innerHTML='<option>No checkpoint</option>';return;}
+  document.getElementById('history').innerHTML=backups.map(b=>`[${new Date(b.id).toLocaleTimeString()}] ${b.hash}`).join('<br>');
+  document.getElementById('chk').innerHTML=backups.map(b=>`<option value="${b.hash}">${b.hash} - ${new Date(b.id).toLocaleString()}</option>`).join('');
+}
+function verifyHash(){
+  if(!backups.length)return alert('No backup!');
+  let sel=document.getElementById('chk').value;let perm=localStorage.getItem('sx_perm_hash');
+  if(!perm){document.getElementById('vStatus').innerHTML='<span class=warn>First Permanent — Verification OK (No Permanent Hash yet)</span><br>→ USER CONFIRM → PERMANENT';return;}
+  document.getElementById('vStatus').innerHTML= sel===perm?'<span class=ok>✅ VERIFIED: Backup Hash ↔ Permanent Hash MATCH</span>':'<span style=color:#ff4444>❌ MISMATCH: Backup '+sel+' vs Permanent '+perm+'</span>';
+}
+function confirmPermanent(){
+  if(!backups.length)return alert('Create backup first!');
+  let sel=document.getElementById('chk').value;
+  if(!confirm('USER CONFIRM:\nPermanent করবে?\nHash: '+sel+'\n\nTERMUX → PERMANENT ❌\nSUROKKHA → VERIFY → USER CONFIRM → PERMANENT ✅'))return;
+  localStorage.setItem('sx_perm_hash',sel);
+  document.getElementById('pStatus').innerHTML='<span class=ok>PERMANENT SAVED: '+sel+'</span><br>→ AUTO DEPLOYMENT → PERMANENT LIVE';
+  document.getElementById('vStatus').innerHTML='<span class=ok>Permanent Hash Auto-Created by System: '+sel+'</span>';
+  alert('✅ PERMANENT CONFIRMED\n→ AUTO DEPLOY → PERMANENT LIVE\n\nBackup Live: /backup/\nPermanent Live: /permanent/ (আলাদা URL)');
+}
+function autoDeploy(){alert('🚀 AUTO DEPLOYMENT\nBackup Live: https://mdsydujjaman.github.io/projectsurokkha-x/backup/\nPermanent Live: https://mdsydujjaman.github.io/projectsurokkha-x/permanent/\n\nআলাদা URL ✅');}
+function doLock(){document.body.innerHTML='<div style=height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;flex-direction:column;font-family:monospace><h1>🔒 VAULT LOCKED</h1><p style=margin-top:10px;font-size:11px>Security: TERMUX → PERMANENT ❌</p><button onclick=location.reload() style=margin-top:20px;padding:12px 24px;background:#00ff88;border:none;border-radius:8px;font-weight:900>[ UNLOCK ]</button></div>'}
+function doUnlock(){alert('Already UNLOCKED - FINAL DASHBOARD LOCKED')}
+refreshHistory();
 </script>
 </body></html>
