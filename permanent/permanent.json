@@ -1,8 +1,11 @@
-<h1>Backup Live</h1><p>Hash: 1E92F0FF69FE0EA9</p><p>Time: 2026-09-28T23:37:17.499Z</p><pre>[
-  {
+{
+  "hash": "1E92F0FF69FE0EA9",
+  "time": "2026-09-28T23:38:06.221Z",
+  "source": {
     "id": 1790638637499,
     "hash": "1E92F0FF69FE0EA9",
     "time": "2026-09-28T23:37:17.499Z",
     "data": "test-backup-Tue Sep 29 05:37:17 +06 2026"
-  }
-]</pre>
+  },
+  "autoCreated": true
+}
