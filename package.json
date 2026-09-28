@@ -1,0 +1,14 @@
+{
+  "name": "projectsurokkha-x",
+  "version": "1.0.0",
+  "description": "www.projectsurokkha.com",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.18.2",
+    "multer": "^2.4.0"
+  }
+}
