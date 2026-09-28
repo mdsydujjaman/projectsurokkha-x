@@ -25,3 +25,11 @@ app.use('/permanent',express.static(permDir));
 app.use(express.static(publicDir));
 app.get('/',(req,res)=>res.sendFile(path.join(publicDir,'index.html')));
 app.listen(PORT,'0.0.0.0',()=>console.log(`RUNNING http://0.0.0.0:3000 PERM ${getLock()?'LOCKED':'UNLOCKED'} SECURE CORS ON ✅ LIVE FIXED`));
+
+// Vercel Export
+if (require.main !== module) { module.exports = require('./server.js'); } else {}
+
+// VERCEL FIX - Auto
+if (process.env.VERCEL) {
+  module.exports = module.exports || require('express')();
+}
