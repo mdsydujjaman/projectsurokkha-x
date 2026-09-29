@@ -1,5 +1,7 @@
+backup/
+permanent/
 node_modules/
-tmp/
+surokkha.log
+SUROKKHA-X
+main
 *.log
-.DS_Store
-lock.json
