@@ -1,58 +1,92 @@
-const http=require('http'),fs=require('fs'),path=require('path'),crypto=require('crypto');
-const PORT=3000;
-const BACKUP_DIR=path.join(__dirname,'backup');
-const PERM_DIR=path.join(__dirname,'permanent');
-const HISTORY_FILE=path.join(BACKUP_DIR,'history.json');
-if(!fs.existsSync(BACKUP_DIR))fs.mkdirSync(BACKUP_DIR,{recursive:true});
-if(!fs.existsSync(PERM_DIR))fs.mkdirSync(PERM_DIR,{recursive:true});
-if(!fs.existsSync(HISTORY_FILE))fs.writeFileSync(HISTORY_FILE,'[]');
-function hashData(d){return crypto.createHash('sha256').update(d).digest('hex').toUpperCase().slice(0,16);}
-function getHistory(){try{return JSON.parse(fs.readFileSync(HISTORY_FILE,'utf8'))}catch{return []}}
-function saveHistory(h){fs.writeFileSync(HISTORY_FILE,JSON.stringify(h,null,2))}
-const server=http.createServer((req,res)=>{
-  res.setHeader('Access-Control-Allow-Origin','*');
-  res.setHeader('Access-Control-Allow-Methods','GET,POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers','Content-Type, X-Surokkha-Confirm');
-  if(req.method==='OPTIONS'){res.writeHead(204);return res.end();}
-  if(req.url==='/api/backup' && req.method==='POST'){
-    let body='';req.on('data',c=>body+=c);req.on('end',()=>{
-      const data=body||'SUROKKHA-X-'+Date.now();const h=hashData(data);
-      const entry={id:Date.now(),hash:h,time:new Date().toISOString(),data:data.slice(0,100)};
-      const hist=getHistory();hist.unshift(entry);saveHistory(hist);
-      fs.writeFileSync(path.join(BACKUP_DIR,`${h}.json`),JSON.stringify(entry,null,2));
-      fs.writeFileSync(path.join(BACKUP_DIR,'index.html'),`<h1>Backup Live (Test URL - Placeholder)</h1><p>Hash: ${h}</p><p>${entry.time}</p>`);
-      res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:true,hash:h}));
-    });return;
-  }
-  if(req.url==='/api/history'){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify(getHistory()));return;}
-  if(req.url.startsWith('/api/verify')){
-    const url=new URL(req.url,'http://localhost');const h=url.searchParams.get('hash');
-    const permPath=path.join(PERM_DIR,'permanent.json');
-    const permHash=fs.existsSync(permPath)?JSON.parse(fs.readFileSync(permPath)).hash:null;
-    if(!permHash){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:true,first:true,msg:'First Permanent — Verification OK — Permanent Hash: -'}));return;}
-    res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:h===permHash,backup:h,permanent:permHash,match:h===permHash}));return;
-  }
-  if(req.url==='/api/permanent' && req.method==='POST'){
-    const origin=req.headers['x-surokkha-confirm'];
-    if(origin!=='USER_CONFIRMED'){res.writeHead(403,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:false,msg:'SECURITY: TERMUX → PERMANENT ❌'}));return;}
-    let body='';req.on('data',c=>body+=c);req.on('end',()=>{
-      try{
-        const {hash}=JSON.parse(body);const hist=getHistory();const found=hist.find(x=>x.hash===hash);
-        if(!found){res.writeHead(404,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:false,msg:'Checkpoint not found'}));return;}
-        const perm={hash:found.hash,time:new Date().toISOString(),source:found,autoCreated:true};
-        fs.writeFileSync(path.join(PERM_DIR,'permanent.json'),JSON.stringify(perm,null,2));
-        fs.writeFileSync(path.join(PERM_DIR,'index.html'),`<h1>Permanent Live (Project URL - Placeholder)</h1><p>Auto Hash: ${found.hash}</p><p>${perm.time}</p><p>VERIFY=PASS → USER CONFIRM → PERMANENT SAVE → AUTO DEPLOY (backend auto)</p>`);
-        console.log(`🚀 AUTO DEPLOY (backend auto): ${found.hash} → PERMANENT LIVE`);
-        res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:true,permanent:perm}));
-      }catch(e){res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:false,msg:e.message}))}
-    });return;
-  }
-  let filePath=path.join(__dirname, req.url==='/'?'/index.html':req.url);
-  if(fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) filePath=path.join(filePath,'index.html');
-  fs.readFile(filePath,(err,data)=>{
-    if(err){if(fs.existsSync(path.join(__dirname,'404.html'))){res.writeHead(200,{'Content-Type':'text/html'});res.end(fs.readFileSync(path.join(__dirname,'404.html')));}else{res.writeHead(404);res.end('404');}return;}
-    const ext=path.extname(filePath);const mime={'.html':'text/html','.json':'application/json'}[ext]||'text/html';
-    res.writeHead(200,{'Content-Type':mime});res.end(data);
-  });
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.text({ type: 'text/*', limit: '10mb' }));
+app.use(express.static(__dirname));
+
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+}
+ensureDir(path.join(__dirname, 'backup'));
+ensureDir(path.join(__dirname, 'permanent'));
+ensureDir(path.join(__dirname, 'public'));
+
+function makeHash(s){
+  let h=0;
+  for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h=h&h;}
+  return Math.abs(h).toString(16).toUpperCase();
+}
+
+app.post('/api/backup', (req, res) => {
+  try{
+    const data = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+    const hash = makeHash(data + Date.now());
+    const time = new Date().toISOString();
+    fs.writeFileSync(path.join(__dirname, 'backup', `${hash}.json`), JSON.stringify({ hash, data, time }, null, 2));
+    const historyPath = path.join(__dirname, 'backup', 'history.json');
+    let history = [];
+    if (fs.existsSync(historyPath)) { try{ history = JSON.parse(fs.readFileSync(historyPath, 'utf8')); }catch(e){ history = []; } }
+    history.unshift({ hash, time });
+    if (history.length > 100) history = history.slice(0,100);
+    fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
+    fs.writeFileSync(path.join(__dirname, 'backup', 'index.html'), `<h1>BACKUP LIVE</h1><p>${hash}</p><p>${time}</p>`);
+    res.json({ ok: true, hash, msg: 'TERMUX → BACKUP ✅' });
+  }catch(e){ res.json({ ok: false, msg: e.message }); }
 });
-server.listen(PORT,()=>console.log(`✅ FINAL V2 LOCKED — CORRECTED LIVE at http://127.0.0.1:${PORT}/`));
+
+app.post('/api/permanent', (req, res) => {
+  const confirm = req.headers['x-surokkha-confirm'];
+  if (confirm !== 'USER_CONFIRMED') {
+    return res.status(403).json({ ok: false, msg: '❌ BLOCKED: TERMUX → PERMANENT ❌' });
+  }
+  try{
+    const { hash } = req.body || {};
+    if (!hash) return res.json({ ok: false, msg: 'No hash' });
+    const time = new Date().toISOString();
+    fs.writeFileSync(path.join(__dirname, 'permanent', 'permanent.json'), JSON.stringify({ hash, time }, null, 2));
+    fs.writeFileSync(path.join(__dirname, 'permanent', 'index.html'), `<h1>PERMANENT LIVE</h1><p>${hash}</p><p>${time}</p><p>✅ VERIFIED → PERMANENT LIVE</p>`);
+    res.json({ ok: true, hash, msg: '✅ PERMANENT LIVE' });
+  }catch(e){ res.json({ ok: false, msg: e.message }); }
+});
+
+app.get('/api/history', (req, res) => {
+  const p = path.join(__dirname, 'backup', 'history.json');
+  if (!fs.existsSync(p)) return res.json([]);
+  try{ res.json(JSON.parse(fs.readFileSync(p, 'utf8'))); }catch(e){ res.json([]); }
+});
+
+app.get('/api/verify', (req, res) => {
+  const { hash } = req.query;
+  const permPath = path.join(__dirname, 'permanent', 'permanent.json');
+  if (!fs.existsSync(permPath)) return res.json({ ok: true, first: true });
+  try{
+    const perm = JSON.parse(fs.readFileSync(permPath, 'utf8'));
+    const saved = perm.hash || perm.permanent_hash;
+    res.json({ ok: saved === hash, match: saved === hash, backupHash: hash, permanentHash: saved });
+  }catch(e){ res.json({ ok:false, msg:e.message }); }
+});
+
+app.post('/api/project-info', (req, res) => {
+  console.log('Project:', req.body);
+  res.json({ ok:true });
+});
+
+app.get('/backup/', (req, res) => {
+  const p = path.join(__dirname, 'backup', 'index.html');
+  if (fs.existsSync(p)) return res.sendFile(p);
+  res.send('<h1>BACKUP LIVE</h1><p>No backup</p>');
+});
+
+app.get('/permanent/', (req, res) => {
+  const p = path.join(__dirname, 'permanent', 'index.html');
+  if (fs.existsSync(p)) return res.sendFile(p);
+  res.send('<h1>PERMANENT LIVE</h1><p>NOT CREATED</p>');
+});
+
+app.listen(PORT, () => console.log(`✅ FINAL LOCKED at http://127.0.0.1:${PORT}/`));
