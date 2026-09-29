@@ -5,3 +5,6 @@ surokkha.log
 SUROKKHA-X
 main
 *.log
+.nojekyll
+tmp/
+public/

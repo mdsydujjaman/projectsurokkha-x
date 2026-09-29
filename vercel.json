@@ -1,7 +1,0 @@
-{
-  "framework": null,
-  "functions": {},
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
