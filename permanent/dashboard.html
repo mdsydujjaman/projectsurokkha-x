@@ -1,14 +1,100 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
 <script>(function(){const f=sessionStorage.getItem("surokkha_temp");if(!f){location.replace("./index.html")}else{sessionStorage.removeItem("surokkha_temp")}} )();</script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>DASHBOARD</title>
-<script>(function(){const f=sessionStorage.getItem("surokkha_temp");if(!f){location.replace("./index.html")}else{sessionStorage.removeItem("surokkha_temp")}} )();</script>
-<style>body{background:#0a0a0f;color:#00ff88;font-family:monospace;padding:15px;margin:0}.header{background:#12121a;border:2px solid #00ff88;border-radius:15px;padding:15px;text-align:center;margin-bottom:15px}.badge{background:#00ff88;color:#000;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold;display:inline-block;margin-top:6px}.card{background:#12121a;border:1px solid #222;border-radius:15px;padding:15px;margin-bottom:12px}.btn{width:100%;padding:14px;background:#00ff88;color:#000;border:none;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px}.topbar{display:flex;justify-content:space-between;margin-bottom:10px} .topbar button{background:#222;color:#fff;border:1px solid #333;padding:6px 12px;border-radius:8px}</style>
-</head><body>
-<div class="topbar"><span>🔓 UNLOCKED</span><button onclick="location.replace('./index.html')">🔒 Lock Now</button></div>
-<div class="header"><h1>PROJECT SUROKKHA-X</h1><div class="badge">UNLOCKED - EDITABLE</div><div style="color:#888;font-size:12px;margin-top:6px">Refresh করলেই Lock হবে</div></div>
-<div class="card">01 — BACKUP [ SECURE BACKUP NOW ]<button class="btn">[ SECURE BACKUP NOW ]</button><div style="color:#888;font-size:12px;margin-top:6px">No backup yet</div></div>
-<div class="card">02 — HISTORY + HASH<button class="btn" style="background:#222;color:#00ff88;border:1px solid #00ff88" onclick="location.reload()">[ REFRESH ] → Lock হবে</button></div>
-</body></html>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT SUROKKHA-X — www.projectsurokkha.com</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:radial-gradient(800px 400px at 50% 0%,#1a1f2e 0%,#050507 65%);color:#e5e7eb;font-family:monospace;padding:12px}
+.hdr{border:2px solid #1f2937;background:linear-gradient(180deg,#151a28,#0d101a);border-radius:22px;padding:18px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08)}
+.logo{font-size:22px;font-weight:900;letter-spacing:2px}.logo span{color:#00ff88}
+.badge{display:inline-flex;gap:8px;align-items:center;background:#000;border:1px solid #333;border-radius:999px;padding:6px 14px;font-size:10px;margin-top:10px}.dot{width:8px;height:8px;background:#00ff88;border-radius:50%;box-shadow:0 0 10px #00ff88}
+.editBox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;text-align:left}
+.edit{background:linear-gradient(180deg,#0f1219,#0a0c10);border:1.5px solid #00ff8844;border-radius:14px;padding:10px}
+.edit b{color:#00ff88;font-size:10px;display:block;margin-bottom:5px}.edit input{width:100%;background:#000;border:1px solid #333;color:#fff;padding:9px;border-radius:8px}
+.card{background:linear-gradient(180deg,#111118,#0a0a12);border:1.5px solid #1e293b;border-radius:18px;padding:14px;margin-top:12px;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.btn{width:100%;padding:13px;border-radius:12px;border:none;font-weight:900;cursor:pointer;margin-top:8px}.g{background:linear-gradient(180deg,#00ff88,#00cc6a);color:#000}.p{background:linear-gradient(180deg,#8b5cf6,#6d28d9);color:#fff}.d{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a}
+.mono{font-size:11px;color:#9ca3af;margin-top:8px;word-break:break-all}.ok{color:#00ff88}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hist{background:#000;border:1px solid #111;border-radius:12px;padding:10px;min-height:36px;max-height:200px;overflow:auto;color:#00ff88;font-size:11px}
+.sel{width:100%;background:#000;border:1px solid #333;color:#fff;padding:12px;border-radius:10px}
+.item{display:flex;justify-content:space-between;background:#0a0a0f;border:1px solid #1f2937;border-radius:10px;padding:8px;margin:5px 0}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">🔐 PROJECT <span id="logoName">SUROKKHA-X</span></div>
+  <div class="badge"><span class="dot"></span> UNLOCKED 🔓 — EDITABLE — 58cdccd</div>
+  <div class="editBox">
+    <div class="edit"><b>✏️ Project Name:</b><input id="projNameInput" placeholder="SUROKKHA-X" oninput="saveInfo()"></div>
+    <div class="edit"><b>✏️ Project Step:</b><input id="projStepInput" placeholder="FINAL V2 LOCKED" oninput="saveInfo()"></div>
+  </div>
+  <div class="mono ok" id="saveMsg"></div>
+</div>
+
+<div class="card"><h3>01 — BACKUP [ SECURE BACKUP NOW ]</h3><button class="btn g" onclick="secureBackup()">[ SECURE BACKUP NOW ]</button><div id="bHash" class="mono">No backup yet</div></div>
+
+<div class="card"><h3>02 — HISTORY + HASH [ REFRESH ] — Checkpoint X-S02-B005 Format</h3><div id="history" class="hist">No backup</div><button class="btn d" onclick="refreshHistory()">[ REFRESH ] — ← PREVIOUS | NEXT → Ready</button></div>
+
+<div class="card"><h3>03 — LIVE BUTTONS — 2 URL আলাদা</h3><div class="grid2"><button class="btn g" onclick="openLive('backup')">[ 🟢 BACKUP LIVE ]</button><button class="btn p" onclick="openLive('permanent')">[ 🟣 PERMANENT LIVE ]</button></div></div>
+
+<div class="card"><h3>05 — PERMANENT — VERIFY ≠ AUTO DEPLOY</h3><select id="chk" class="sel"><option>No checkpoint</option></select><button class="btn p" onclick="confirmPermanent()">[ CONFIRM PERMANENT ]</button><div id="pStatus" class="mono">NOT CREATED</div></div>
+
+<div class="card"><h3>06 — VERIFY HASH</h3><div class="mono">Backup: <span id="vBackupHash" class="ok">-</span> | Permanent: <span id="vPermHash">-</span></div><button class="btn d" onclick="verifyHash()">[ ✓ VERIFY NOW ]</button><div id="vStatus" class="mono">WAITING — TERMUX→BACKUP ✅ | TERMUX→PERMANENT ❌</div></div>
+
+<script>
+let backups=JSON.parse(localStorage.getItem('sx_backups')||'[]');
+let perm=localStorage.getItem('sx_perm_hash')||null;
+let projName=localStorage.getItem('sx_proj_name')||'SUROKKHA-X';
+let projStep=localStorage.getItem('sx_proj_step')||'FINAL V2 LOCKED';
+document.getElementById('projNameInput').value=projName;
+document.getElementById('projStepInput').value=projStep;
+document.getElementById('logoName').innerText=projName;
+function saveInfo(){
+  projName=document.getElementById('projNameInput').value||'SUROKKHA-X';
+  projStep=document.getElementById('projStepInput').value||'FINAL V2 LOCKED';
+  localStorage.setItem('sx_proj_name',projName);
+  localStorage.setItem('sx_proj_step',projStep);
+  document.getElementById('logoName').innerText=projName;
+  document.getElementById('saveMsg').innerText='✅ Saved: '+projName+' | '+projStep;
+  setTimeout(()=>document.getElementById('saveMsg').innerText='',2000);
+  fetch('/api/project-info',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:projName,step:projStep})});
+}
+function hash(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);return Math.abs(h).toString(16).toUpperCase()}
+function secureBackup(){
+  let d=projName+'-'+Date.now();
+  let h=hash(d);
+  let checkpoint=`X-S02-B${String(backups.length+1).padStart(3,'0')}`;
+  backups.unshift({hash:h,checkpoint,time:new Date().toISOString()});
+  localStorage.setItem('sx_backups',JSON.stringify(backups));
+  document.getElementById('bHash').innerHTML='<span class=ok>'+checkpoint+' | '+h+'</span>';
+  refreshHistory();
+  fetch('/api/backup',{method:'POST',headers:{'Content-Type':'text/plain'},body:d});
+}
+function refreshHistory(){
+  if(!backups.length){document.getElementById('history').innerHTML='No backup';document.getElementById('chk').innerHTML='<option>No checkpoint</option>';return}
+  document.getElementById('history').innerHTML=backups.map(b=>`<div class="item"><span>${b.checkpoint}</span><span>${b.hash}</span></div>`).join('');
+  document.getElementById('chk').innerHTML=backups.map(b=>`<option value="${b.hash}">${b.checkpoint} — ${b.hash}</option>`).join('');
+}
+function verifyHash(){
+  let sel=document.getElementById('chk').value;
+  if(!sel) return;
+  fetch(`/api/verify?hash=${sel}`).then(r=>r.json()).then(d=>{
+    document.getElementById('vBackupHash').innerText=d.backupHash||sel;
+    document.getElementById('vPermHash').innerText=d.permanentHash||'-';
+    document.getElementById('vStatus').innerText=d.first?'First Permanent OK ✅':(d.match?'✅ VERIFIED':'❌ MISMATCH');
+  });
+}
+function confirmPermanent(){
+  let sel=document.getElementById('chk').value;
+  if(!sel||!confirm('Confirm Permanent: '+sel)) return;
+  perm=sel;localStorage.setItem('sx_perm_hash',sel);
+  fetch('/api/permanent',{method:'POST',headers:{'Content-Type':'application/json','X-Surokkha-Confirm':'USER_CONFIRMED'},body:JSON.stringify({hash:sel})}).then(r=>r.json()).then(d=>{document.getElementById('pStatus').innerText=d.msg;});
+}
+function openLive(t){window.open(t==='backup'?'backup/':'permanent/','_blank')}
+refreshHistory();
+</script>
+</body>
+</html>
