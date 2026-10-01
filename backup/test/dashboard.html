@@ -1,47 +1,11 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LAB v5 - AUTO CONNECT</title>
-<style>
-*{box-sizing:border-box;font-family:monospace}
-body{background:#000;color:#0f0;padding:15px}
-.box{border:1px solid #0f0;border-radius:12px;padding:15px;margin:10px 0}
-input{width:100%;padding:12px;background:#111;color:#0f0;border:1px solid #0f0;border-radius:8px;margin:8px 0;font-size:16px}
-button{width:100%;padding:14px;background:#0f0;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:18px;margin-top:10px}
-#log{white-space:pre-wrap;background:#111;padding:10px;border-radius:8px;margin-top:15px;color:#0ff;max-height:300px;overflow:auto}
-</style>
-</head>
-<body>
-<h2>🔐 LAB v5 - AUTO CONNECT</h2>
-<div class="box">
-<b>Logic:</b> Project Name যেটাই লিখো Repo তে মিলবে সেটাই Connect হবে<br>
-Step থাকলে দিবে, না থাকলে খালি রাখবে
-</div>
-<div class="box">
-<label>project name:</label>
-<input id="projectName" placeholder="surokkha, doinik, proyojon...">
-<label>project step (optional):</label>
-<input id="projectStep" placeholder="FINAL-V2-LOCKED বা খালি">
-<button onclick="smartConnect()">🔐 SECURE BACKUP NOW</button>
-<div id="log">Ready... Project Name লিখে বাটন চাপো</div>
-</div>
+<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LAB v7 - GITHUB USE</title>
+<style>*{box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f0;padding:15px}.box{border:1px solid #0f0;border-radius:12px;padding:15px;margin:10px 0}input{width:100%;padding:12px;background:#111;color:#0f0;border:1px solid #0f0;border-radius:8px;margin:8px 0}button{width:100%;padding:14px;background:#0f0;color:#000;border:none;border-radius:10px;font-weight:bold;margin-top:8px}#log{white-space:pre-wrap;background:#111;padding:10px;border-radius:8px;margin-top:10px;color:#0ff}</style>
+</head><body>
+<h2>🔐 LAB v7 - GITHUB LINK USE</h2>
+<div class="box"><label>API URL:</label><input id="apiUrl" placeholder="http://localhost:3000 বা ngrok link"><small>GitHub এ থাকলে Termux Tunnel Link দাও</small></div>
+<div class="box"><input id="projectName" placeholder="project name: surokkha"><input id="projectStep" placeholder="step optional"><button onclick="smartConnect()">🔐 SECURE BACKUP NOW</button><div id="log">Ready - v7 GitHub Usable</div></div>
 <script>
-async function smartConnect(){
-  const projectName=document.getElementById('projectName').value.trim();
-  const projectStep=document.getElementById('projectStep').value.trim();
-  const log=document.getElementById('log');
-  if(!projectName){log.textContent='❌ Project Name লিখো!';return;}
-  log.textContent=`⏳ Connecting... Input: ${projectName} | Step: ${projectStep||'(no step)'}`;
-  try{
-    const res=await fetch('/api/secure-backup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectName,projectStep:projectStep||''})});
-    const data=await res.json();
-    if(data.ok){
-      log.textContent=`✅ AUTO CONNECTED!\n\nতুমি লিখেছিলে: ${data.info.inputName} | Step: ${data.info.inputStep}\nRepo তে মিলেছে: ${data.info.autoMatched}\nFinal: ${data.info.finalProjectName} / ${data.info.finalStep}\nPath: ${data.info.targetDir}`;
-    }else{log.textContent='❌ Error:'+JSON.stringify(data,null,2);}
-  }catch(e){log.textContent='❌ Error:'+e.message;}
-}
-</script>
-</body>
-</html>
+let s=localStorage.getItem('apiUrl')||'';document.getElementById('apiUrl').value=s;
+function getBase(){let v=document.getElementById('apiUrl').value.trim();if(v){localStorage.setItem('apiUrl',v);return v.replace(/\/$/,'');}return '';}
+async function smartConnect(){const pn=document.getElementById('projectName').value.trim();const ps=document.getElementById('projectStep').value.trim();const log=document.getElementById('log');if(!pn){log.textContent='❌ Project Name';return;}let base=getBase();let url=(base?base:'')+'/api/secure-backup';if(!base&&location.hostname.includes('github.io')){log.textContent='⚠️ GitHub Pages এ API URL লাগবে!\nTermux এ চালাও: npx localtunnel --port 3000\nযে https link দিবে সেটা উপরের Box এ দাও';return;}log.textContent='⏳ Connecting to '+url;try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectName:pn,projectStep:ps})});const d=await r.json();if(d.ok)log.textContent='✅ '+d.info.inputName+' -> '+d.info.autoMatched+'\nFinal: '+d.info.finalProjectName+' / '+d.info.finalStep;else log.textContent='❌ '+JSON.stringify(d);}catch(e){log.textContent='❌ Error: '+e.message;}}
+</script></body></html>
