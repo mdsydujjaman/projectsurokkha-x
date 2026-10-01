@@ -1,24 +1,25 @@
-<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>SUROKKHA-X LOCK v16 - OK to Unlock</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#00ff88;font-family:monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
-.lock{border:2px solid #00ff88;border-radius:20px;padding:24px;width:92%;max-width:380px;text-align:center;background:#111;box-shadow:0 0 40px #00ff8855}
-h1{font-size:26px}.sub{color:#888;font-size:11px;margin:8px 0 14px;line-height:1.4}
-.dots{display:flex;gap:12px;justify-content:center;margin:16px 0}.dot{width:18px;height:18px;border:2px solid #00ff88;border-radius:50%}.dot.on{background:#00ff88;box-shadow:0 0 8px #00ff88}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-button{height:64px;background:#1e1e1e;border:1px solid #333;border-radius:14px;color:#fff;font-size:24px;font-weight:bold;touch-action:manipulation}
-button:active{background:#00ff88;color:#000}button.c{background:#ff2a2a}button.ok{background:#00ff88;color:#000;font-size:22px;font-weight:900}
-#msg{height:24px;margin-top:12px;font-size:14px;font-weight:bold}</style></head><body>
-<div class="lock"><h1>🔐 SUROKKHA-X</h1><div class="sub">ORIGINAL + BEFORE-LOCK<br>1234 চেপে OK চাপো = Dashboard</div>
+<title>SUROKKHA-X SECURE</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#00ff88;font-family:monospace;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.lock{border:2px solid #00ff88;border-radius:20px;padding:28px;width:92%;max-width:360px;text-align:center;background:#0a0a0a;box-shadow:0 0 40px #00ff8855}
+h1{font-size:24px;letter-spacing:2px}.sub{color:#666;font-size:10px;margin:10px 0 18px;letter-spacing:1px}
+.dots{display:flex;gap:14px;justify-content:center;margin:18px 0}.dot{width:16px;height:16px;border:2px solid #00ff88;border-radius:50%}.dot.on{background:#00ff88;box-shadow:0 0 8px #00ff88}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+button{height:60px;background:#151515;border:1px solid #2a2a2a;border-radius:14px;color:#fff;font-size:22px;font-weight:bold}
+button:active{background:#00ff88;color:#000}button.c{background:#1a1a1a;color:#ff4444}button.ok{background:#00ff88;color:#000;font-weight:900}
+#msg{height:20px;margin-top:16px;font-size:12px;color:#888;letter-spacing:1px}
+</style></head><body>
+<div class="lock"><h1>🔐 SUROKKHA-X</h1><div class="sub">SECURE VAULT<br>ENTER ACCESS CODE</div>
 <div class="dots"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
 <div class="pad"><button onclick="tap('1')">1</button><button onclick="tap('2')">2</button><button onclick="tap('3')">3</button><button onclick="tap('4')">4</button><button onclick="tap('5')">5</button><button onclick="tap('6')">6</button><button onclick="tap('7')">7</button><button onclick="tap('8')">8</button><button onclick="tap('9')">9</button><button class="c" onclick="clr()">C</button><button onclick="tap('0')">0</button><button class="ok" onclick="go()">OK</button></div>
-<div id="msg">PIN দাও: 1 2 3 4 → OK</div></div>
+<div id="msg">ENTER PIN</div></div>
 <script>
 let pin="",last=0;
-function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).className=i<pin.length?'dot on':'dot';document.getElementById('msg').innerText=pin?`Entered: ${'*'.repeat(pin.length)} (${pin.length}/4) → OK চাপো`:'PIN দাও: 1 2 3 4 → OK';document.getElementById('msg').style.color='#0f8';}
-function tap(n){let now=Date.now();if(now-last<350)return;last=now;if(pin.length>=4)return;pin+=n;upd();}
+function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).className=i<pin.length?'dot on':'dot';document.getElementById('msg').innerText=pin?'*'.repeat(pin.length):'ENTER PIN';document.getElementById('msg').style.color='#888';}
+function tap(n){let now=Date.now();if(now-last<300)return;last=now;if(pin.length>=4)return;pin+=n;upd();}
 function clr(){pin="";upd();}
-function go(){let m=document.getElementById('msg');if(pin.length!==4){m.innerText=`❌ ${pin.length}/4 দিয়েছো - 4 টা দাও`;m.style.color='#f44';return;}if(pin!=="1234"){m.innerText=`❌ Wrong: ${pin}`;m.style.color='#f44';pin="";upd();return;}m.innerText='✅ OK! Dashboard এ যাচ্ছি...';m.style.color='#0f8';try{sessionStorage.setItem("surokkha_temp","1");localStorage.setItem("surokkha_temp","1");}catch(e){}setTimeout(()=>{location.href="./dashboard.html";},500);}
+function go(){let m=document.getElementById('msg');if(pin.length!==4){m.innerText='ENTER 4 DIGITS';m.style.color='#ff4444';return;}if(pin!=="1234"){m.innerText='ACCESS DENIED';m.style.color='#ff4444';pin="";setTimeout(upd,800);return;}m.innerText='ACCESS GRANTED';m.style.color='#00ff88';try{sessionStorage.setItem("surokkha_temp","1");localStorage.setItem("surokkha_temp","1");}catch(e){}setTimeout(()=>{location.href="./dashboard.html";},600);}
 document.addEventListener('keydown',e=>{if(e.key>='0'&&e.key<='9')tap(e.key);if(e.key==='Enter')go();if(e.key==='Backspace')clr();});
 upd();
 </script></body></html>
