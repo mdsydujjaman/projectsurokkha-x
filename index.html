@@ -1,150 +1,34 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PROJECT SUROKKHA-X - ROOF MAIN</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
-body{background:#070b14;color:#d0ffe0;min-height:100vh;padding:12px}
-.top{border:1px solid #1a3a2a;background:radial-gradient(ellipse at top,#102418,#070b14);border-radius:22px;padding:18px}
-h1{font-size:26px;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:10px}
-h1 span{color:#00ff88;text-shadow:0 0 10px #00ff8855}
-.status{background:#000;border:1px solid #222;border-radius:30px;padding:8px 16px;display:inline-flex;align-items:center;gap:8px;font-size:12px;margin-top:12px}
-.dot{width:12px;height:12px;background:#00ff88;border-radius:50%;box-shadow:0 0 12px #00ff88;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-.inputs{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-.box{flex:1;min-width:140px;border:1px solid #00ff8844;background:#000c;border-radius:14px;padding:12px}
-.box label{color:#00ff88;font-size:12px;display:flex;gap:6px;margin-bottom:8px}
-.box input{width:100%;background:#050505;border:1px solid #222;border-radius:10px;color:#fff;padding:12px;font-size:14px}
-.card{border:1px solid #1a2a2a;background:linear-gradient(180deg,#0c1410,#080e0a);border-radius:22px;padding:16px;margin-top:16px}
-.t{font-size:15px;font-weight:900;letter-spacing:1px}
-.btnG{background:#00ff88;color:#000;border:0;border-radius:14px;padding:18px;font-weight:900;width:100%;font-size:16px;margin-top:14px;cursor:pointer;box-shadow:0 0 30px #00ff8844}
-.btnG:active{transform:scale(.98)}
-.btnDark{width:100%;background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:14px;padding:14px;font-weight:800;margin-top:14px}
-.list{background:#000;border-radius:14px;padding:8px;margin-top:12px;border:1px solid #1a1a1a;max-height:360px;overflow:auto}
-.row{display:flex;justify-content:space-between;background:#0a0a0a;border:1px solid #1a2a1a;border-radius:12px;padding:12px 14px;margin:6px 0;font-size:13px}
-.row b{color:#00ff88}.row span{color:#00ff88}
-.liveRow{display:flex;gap:12px;margin-top:14px}
-.liveBtn{flex:1;border:0;border-radius:16px;padding:18px;font-weight:900;font-size:14px;cursor:pointer}
-.liveBtn.green{background:#00ff88;color:#000;box-shadow:0 0 20px #00ff8844}
-.liveBtn.purple{background:linear-gradient(180deg,#8a5cff,#5a2ecf);color:#fff;box-shadow:0 0 20px #8a5cff44}
-.selectBox{background:#000;border:1px solid #333;border-radius:12px;padding:14px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
-.small{font-size:11px;opacity:.6;margin-top:10px;line-height:1.5}
-.badge{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800;margin-left:6px}
-.red{background:#ff003322;border:1px solid #ff3355;color:#ff6b8a}.green{background:#00ff8822;border:1px solid #00ff88aa;color:#00ff88}.blue{background:#0033ff33;border:1px solid #3366ff;color:#66aaff}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SUROKKHA-X SECURE v20</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#00ff88;font-family:monospace;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.lock{border:2px solid #00ff88;border-radius:20px;padding:28px;width:92%;max-width:360px;text-align:center;background:#0a0a0a}
+h1{font-size:24px}.sub{color:#666;font-size:10px;margin:10px 0 18px}
+.dots{display:flex;gap:14px;justify-content:center;margin:18px 0}.dot{width:16px;height:16px;border:2px solid #00ff88;border-radius:50%}.dot.on{background:#00ff88;box-shadow:0 0 8px #00ff88}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+button{height:60px;background:#151515;border:1px solid #2a2a2a;border-radius:14px;color:#fff;font-size:22px;font-weight:bold}
+button:active{background:#00ff88;color:#000}button.ok{background:#00ff88;color:#000;font-weight:900}
+#msg{height:20px;margin-top:16px;font-size:12px;color:#888}
 </style></head><body>
-<div class="top">
-<h1>🔐 PROJECT <span>SUROKKHA-X</span></h1>
-<div class="status"><span class="dot"></span> UNLOCKED 🔓 — EDITABLE — 58cd <span id="smartBadge" class="badge green" style="display:none"></span></div>
-<div class="inputs">
-<div class="box"><label>✏️ Project Name:</label><input id="pn" value="SUROKKHA-X" placeholder="SUROKKHA-X"><div class="small" style="text-transform:none">proyojon-x, proyojon-x-backup, proyojon-x roof লিখলে smart connect হবে</div></div>
-<div class="box"><label>✏️ Project Step:</label><input id="ps" value="FINAL V2" placeholder="FINAL V2"><div class="small" style="text-transform:none">registration, registration-backup, registration roof</div></div>
-</div>
-<div id="pathPreview" style="margin-top:12px;font-size:11px"></div>
-</div>
-
-<div class="card">
-<div class="t">01 — BACKUP [ SECURE BACKUP NOW ]</div>
-<button class="btnG" onclick="secureBackup()">[ SECURE BACKUP NOW ]</button>
-<div class="small" id="backupStatus">No backup yet</div>
-<div id="backupDetails" style="display:none;margin-top:12px;background:#000;border:1px dashed #333;border-radius:10px;padding:12px;font-size:11px;line-height:1.7"></div>
-</div>
-
-<div class="card">
-<div class="t">02 — HISTORY + HASH [ REFRESH ] — Checkpoint X-S02-B005 Format</div>
-<div class="list" id="history">
-<div class="row"><b>X-S02-B058</b><span>18EDEEE17</span></div>
-<div class="row"><b>X-S02-B057</b><span>18EDEF5BE</span></div>
-<div class="row"><b>X-S02-B056</b><span>18EDF4F17</span></div>
-<div class="row"><b>X-S02-B055</b><span>18EDF56F2</span></div>
-<div class="row"><b>X-S02-B054</b><span>18EDF623D</span></div>
-</div>
-<button class="btnDark" onclick="refreshHistory()">[ REFRESH ] — ← PREVIOUS | NEXT → Ready</button>
-</div>
-
-<div class="card">
-<div class="t">03 — LIVE BUTTONS — 2 URL আলাদা</div>
-<div class="liveRow">
-<button class="liveBtn green" onclick="window.open('./backup/','_blank')">[ 🟢 BACKUP LIVE ]</button>
-<button class="liveBtn purple" onclick="window.open('./backup/permanent/backup/','_blank')">[ 🔴 PERMANENT LIVE ]</button>
-</div>
-<div class="small">Local: http://127.0.0.1:3001/ - PIN 1234<br>Permanent Live: https://.../backup/permanent/backup/ - PIN 1234<br>Screenshot এর মত BACKUP FOLDER আর আলাদা না, এখন Main Page ওটাই Lock! 🔐</div>
-</div>
-
-<div class="card">
-<div class="t">05 — PERMANENT — VERIFY ≠ AUTO DEPLOY</div>
-<div class="selectBox"><span id="permSelect">X-S02-B004 — 32457FDC</span><span>⌄</span></div>
-<button class="liveBtn purple" style="width:100%;margin-top:12px;border-radius:14px" onclick="confirmPermanent()">[ CONFIRM PERMANENT ]</button>
-<div class="small" id="permStatus">NOT CREATED</div>
-</div>
-
-<div class="card">
-<div class="t">06 — VERIFY HASH</div>
-<div class="small" id="verifyHash">Backup: <span style="color:#0f8">-</span> | Permanent: <span style="color:#0f8">-</span></div>
-<div style="display:flex;gap:8px;margin-top:12px">
-<a href="./backup/" style="background:#ff003322;border:1px solid #ff3355;color:#ff6b8a;padding:8px 14px;border-radius:10px;text-decoration:none;font-size:12px">→ Backup Lab v4</a>
-<a href="./proyojon-x/" style="background:#00ff8822;border:1px solid #00ff88;color:#00ff88;padding:8px 14px;border-radius:10px;text-decoration:none;font-size:12px">→ proyojon-x</a>
-<a href="./" style="background:#333;border:1px solid #555;color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-size:12px">→ Roof</a>
-</div>
-</div>
-
+<div class="lock"><h1>🔐 SUROKKHA-X</h1><div class="sub">SECURE VAULT</div>
+<div class="dots"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
+<div class="pad"><button onclick="tap('1')">1</button><button onclick="tap('2')">2</button><button onclick="tap('3')">3</button><button onclick="tap('4')">4</button><button onclick="tap('5')">5</button><button onclick="tap('6')">6</button><button onclick="tap('7')">7</button><button onclick="tap('8')">8</button><button onclick="tap('9')">9</button><button onclick="clr()">C</button><button onclick="tap('0')">0</button><button class="ok" onclick="go()">OK</button></div>
+<div id="msg">ENTER PIN</div></div>
 <script>
-// SMART CONNECT - keeps roof safe, no overwrite
-function parseSmart(s){
- if(!s) return {base:'',target:'project'};
- s=s.trim(); let low=s.toLowerCase(); let target='project'; let base=s;
- if(low.endsWith('-backup')||low.endsWith(' backup')){target='backup'; base=s.replace(/[- ]backup$/i,'').trim();}
- else if(low.endsWith('-roof')||low.endsWith(' roof')){target='roof'; base=s.replace(/[- ]roof$/i,'').trim();}
- else if(low.includes('-backup')||low.includes(' backup')){target='backup'; base=s.replace(/[- ]backup/gi,'').trim();}
- else if(low.includes('-roof')||low.includes(' roof')){target='roof'; base=s.replace(/[- ]roof/gi,'').trim();}
- base=base.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,''); if(!base) base='project';
- return {base:base,target:target};
+let pin="";
+function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).className=i<pin.length?'dot on':'dot';document.getElementById('msg').innerText=pin?'*'.repeat(pin.length):'ENTER PIN';}
+function tap(n){if(pin.length>=4)return;pin+=n;upd();}
+function clr(){pin="";upd();}
+function go(){
+ let m=document.getElementById('msg');
+ if(pin.length!=4){m.innerText='ENTER 4 DIGITS';m.style.color='#f44';return;}
+ if(pin!=="1234"){m.innerText='ACCESS DENIED';m.style.color='#f44';pin="";setTimeout(()=>{m.style.color='#888';upd();},800);return;}
+ m.innerText='ACCESS GRANTED';m.style.color='#0f8';
+ try{
+   sessionStorage.setItem("surokkha_temp","1");
+   localStorage.setItem("surokkha_temp","1");
+ }catch(e){}
+ setTimeout(()=>{window.location.href="./dashboard.html?v=20";},400);
 }
-function badgeCls(t){if(t==='backup')return 'badge red'; if(t==='roof')return 'badge blue'; return 'badge green';}
-function badgeTxt(t,d){if(t==='backup')return '→ BACKUP'; if(t==='roof')return '→ ROOF'; return '→ '+d;}
-
-function secureBackup(){
- let pn=document.getElementById('pn').value, ps=document.getElementById('ps').value;
- if(!pn.trim()||!ps.trim()){document.getElementById('backupStatus').textContent='⚠️ Project Name + Step দুটোই লিখো';return;}
- let p=parseSmart(pn), s=parseSmart(ps);
- let sm=document.getElementById('smartBadge');
- sm.style.display='inline-block';
- sm.className=badgeCls(p.target);
- sm.textContent=(p.target.toUpperCase())+' + '+(s.target.toUpperCase())+' CONNECTED';
-
- let pPath=p.target==='backup'?p.base+'/backup/':p.target==='roof'?'(ROOF ROOT)':p.base+'/';
- let sPath=s.target==='backup'?p.base+'/backup/'+s.base+'/':s.target==='roof'?s.base+'/':p.base+'/'+s.base+'/';
-
- document.getElementById('pathPreview').innerHTML='📁 Roof > <span style="background:#00ff8822;padding:3px 8px;border-radius:6px">'+p.base+'</span> <span class="'+badgeCls(p.target)+'">'+badgeTxt(p.target,'PROJECT-X')+'</span> → <span style="background:#111;border:1px solid #333;padding:3px 8px;border-radius:6px">'+s.base+'</span> <span class="'+badgeCls(s.target)+'">'+badgeTxt(s.target,'STEP')+'</span>';
-
- document.getElementById('backupStatus').innerHTML='✅ SECURED: <b>'+p.base.toUpperCase()+'</b> → '+p.target.toUpperCase()+' | <b>'+s.base.toUpperCase()+'</b> → '+s.target.toUpperCase();
- let d=document.getElementById('backupDetails');
- d.style.display='block';
- d.innerHTML='📁 PROJECT: ~/projectsurokkha-x/'+pPath+'<br>📁 STEP: ~/projectsurokkha-x/'+sPath+'<br><br><span style="color:#00ff88">তুই যা লিখবি সেটাই কানেক্ট হবে! proyojon-x = PROJECT-X, proyojon-x-backup = BACKUP, proyojon-x roof = ROOF<br>Roof সুরক্ষিত, backup আলাদা।</span><br><br><span style="opacity:.6">mkdir -p '+sPath+'<br>ls -R '+p.base+'</span>';
- document.getElementById('verifyHash').innerHTML='Backup: <span style="color:#0f8">'+Math.random().toString(16).slice(2,9).toUpperCase()+'</span> | Permanent: <span style="color:#0f8">-</span>';
-
- localStorage.setItem('surokkha_project',p.base);
- localStorage.setItem('surokkha_step',s.base);
-}
-function refreshHistory(){
- // FIX undefined bug - always generate valid IDs
- let h=document.getElementById('history');
- let now=Date.now().toString(16).toUpperCase().slice(-7);
- let num=54+Math.floor(Math.random()*10);
- let id='X-S02-B0'+num;
- if(!id.includes('undefined') && now!=='undefined'){
-   h.innerHTML='<div class="row"><b>'+id+'</b><span>'+now+'</span></div>'+h.innerHTML;
- }
-}
-function confirmPermanent(){
- let sel=document.getElementById('permSelect').textContent;
- document.getElementById('permStatus').textContent='✅ CONFIRMED: '+sel+' → Permanent Live Ready';
- document.getElementById('verifyHash').innerHTML='Backup: <span style="color:#0f8">'+Math.random().toString(16).slice(2,9).toUpperCase()+'</span> | Permanent: <span style="color:#ff6b8a">'+Math.random().toString(16).slice(2,9).toUpperCase()+'</span>';
-}
-// live preview typing
-document.getElementById('pn').addEventListener('input',function(e){
- let p=parseSmart(e.target.value); let s=parseSmart(document.getElementById('ps').value);
- document.getElementById('pathPreview').innerHTML='📁 Roof > <span style="background:#00ff8822;padding:3px 8px;border-radius:6px">'+p.base+'</span> <span class="'+badgeCls(p.target)+'">'+badgeTxt(p.target,'PROJECT-X')+'</span> → <span style="background:#111;border:1px solid #333;padding:3px 8px;border-radius:6px">'+s.base+'</span> <span class="'+badgeCls(s.target)+'">'+badgeTxt(s.target,'STEP')+'</span>';
-});
-document.getElementById('ps').addEventListener('input',function(e){
- let s=parseSmart(e.target.value); let p=parseSmart(document.getElementById('pn').value);
- document.getElementById('pathPreview').innerHTML='📁 Roof > <span style="background:#00ff8822;padding:3px 8px;border-radius:6px">'+p.base+'</span> <span class="'+badgeCls(p.target)+'">'+badgeTxt(p.target,'PROJECT-X')+'</span> → <span style="background:#111;border:1px solid #333;padding:3px 8px;border-radius:6px">'+s.base+'</span> <span class="'+badgeCls(s.target)+'">'+badgeTxt(s.target,'STEP')+'</span>';
-});
+document.addEventListener('keydown',e=>{if(e.key>='0'&&e.key<='9')tap(e.key);if(e.key==='Enter')go();if(e.key==='Backspace')clr();});
+upd();
 </script></body></html>
