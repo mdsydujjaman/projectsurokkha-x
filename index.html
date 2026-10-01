@@ -1,34 +1,108 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>SUROKKHA-X SECURE v20</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#00ff88;font-family:monospace;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.lock{border:2px solid #00ff88;border-radius:20px;padding:28px;width:92%;max-width:360px;text-align:center;background:#0a0a0a}
-h1{font-size:24px}.sub{color:#666;font-size:10px;margin:10px 0 18px}
-.dots{display:flex;gap:14px;justify-content:center;margin:18px 0}.dot{width:16px;height:16px;border:2px solid #00ff88;border-radius:50%}.dot.on{background:#00ff88;box-shadow:0 0 8px #00ff88}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-button{height:60px;background:#151515;border:1px solid #2a2a2a;border-radius:14px;color:#fff;font-size:22px;font-weight:bold}
-button:active{background:#00ff88;color:#000}button.ok{background:#00ff88;color:#000;font-weight:900}
-#msg{height:20px;margin-top:16px;font-size:12px;color:#888}
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECTSUROKKHA-X - ROOF SMART</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f8;min-height:100vh;padding:14px}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid #0f83;border-radius:12px;background:#0a0a0a}
+.b{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800}
+.red{background:#f003;border:1px solid #f33;color:#ff6b8a}.green{background:#0f82;border:1px solid #0f84;color:#0f8}.blue{background:#03f3;border:1px solid #36f;color:#6bf}.yellow{background:#ff03;border:1px solid #fa0;color:#fd0}
+.card{border:1px solid #333;background:#0a0a0a;border-radius:12px;padding:14px;margin-top:12px}
+input{width:100%;background:#000;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;margin-top:6px}
+input:focus{border-color:#0f8}button{width:100%;background:#0f8;color:#000;border:0;border-radius:12px;padding:14px;font-weight:900;margin-top:10px}
+.path{font-size:11px;padding:8px;background:#000;border:1px dashed #444;border-radius:6px;color:#fff;margin:6px 0;word-break:break-all}
+.hint{font-size:10px;opacity:.5;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.item{border:1px solid #222;background:#000;border-radius:8px;padding:8px;font-size:11px}
+.item b{color:#fff}
+a{color:#6bf;text-decoration:none}
 </style></head><body>
-<div class="lock"><h1>🔐 SUROKKHA-X</h1><div class="sub">SECURE VAULT</div>
-<div class="dots"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
-<div class="pad"><button onclick="tap('1')">1</button><button onclick="tap('2')">2</button><button onclick="tap('3')">3</button><button onclick="tap('4')">4</button><button onclick="tap('5')">5</button><button onclick="tap('6')">6</button><button onclick="tap('7')">7</button><button onclick="tap('8')">8</button><button onclick="tap('9')">9</button><button onclick="clr()">C</button><button onclick="tap('0')">0</button><button class="ok" onclick="go()">OK</button></div>
-<div id="msg">ENTER PIN</div></div>
+<header><b>🏠 ROOF - PROJECTSUROKKHA-X</b><span class="b green" id="mode">SMART CONNECT ACTIVE</span></header>
+
+<div style="font-size:11px;margin-top:10px;background:#111;border:1px solid #222;border-radius:8px;padding:10px;line-height:1.6">
+<b>✅ Backup থেকে Roof এ Transfer হলো!</b><br>
+• <span style="color:#0f8">proyojon-x</span> → projectsurokkha-x এ কানেক্ট<br>
+• <span style="color:#ff6b8a">proyojon-x-backup</span> → backup কানেক্ট<br>
+• <span style="color:#6bf">proyojon-x roof</span> → roof কানেক্ট<br>
+• Step একই: <span style="color:#ff6b8a">registration-backup</span> / <span style="color:#6bf">registration roof</span>
+</div>
+
+<div style="margin-top:10px;font-size:11px">
+📁 Roof > <span id="c1" style="background:#0f82;padding:2px 6px;border-radius:4px">{project}</span> <span id="c1t" class="b green">→ PROJECT</span><br>
+<div style="margin-left:16px">└── <span id="c2" style="background:#111;border:1px solid #333;padding:2px 6px;border-radius:4px">{step}</span> <span id="c2t" class="b green">→ STEP</span></div>
+</div>
+
+<div class="card">
+<label>project name (যে প্রজেক্ট কানেক্ট করতে চাস):</label>
+<input id="pn" placeholder="proyojon-x, proyojon-x-backup, proyojon-x roof">
+<div class="hint">তুই যা লিখবি সেটাই কানেক্ট হবে - backup / roof suffix দিলে সেই অনুযায়ী</div>
+<label style="margin-top:10px;display:block">project step (যে স্টেপ কানেক্ট করতে চাস):</label>
+<input id="ps" placeholder="registration, registration-backup, registration roof">
+<button onclick="connect()">🔗 CONNECT TO PROJECT + STEP</button>
+<div id="err" style="display:none;color:#f66;font-size:11px;margin-top:8px"></div>
+</div>
+
+<div id="res" class="card" style="display:none">
+<div id="badges" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+<div id="pbox"></div>
+<div class="grid" id="links"></div>
+<pre id="cmd" style="background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;color:#aaa;white-space:pre-wrap;margin-top:10px"></pre>
+<button onclick="navigator.clipboard.writeText(document.getElementById('cmd').innerText);alert('Copied!')" style="background:#111;color:#0f8;border:1px solid #0f84">COPY COMMANDS</button>
+</div>
+
+<div class="card">
+<b style="font-size:11px">📦 তোর Projects (Roof থেকে):</b>
+<div class="grid" id="projList"><div class="item">Loading...</div></div>
+<div style="margin-top:8px"><a href="./backup/">→ Backup Lab v4 এ যাও</a></div>
+</div>
+
 <script>
-let pin="";
-function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).className=i<pin.length?'dot on':'dot';document.getElementById('msg').innerText=pin?'*'.repeat(pin.length):'ENTER PIN';}
-function tap(n){if(pin.length>=4)return;pin+=n;upd();}
-function clr(){pin="";upd();}
-function go(){
- let m=document.getElementById('msg');
- if(pin.length!=4){m.innerText='ENTER 4 DIGITS';m.style.color='#f44';return;}
- if(pin!=="1234"){m.innerText='ACCESS DENIED';m.style.color='#f44';pin="";setTimeout(()=>{m.style.color='#888';upd();},800);return;}
- m.innerText='ACCESS GRANTED';m.style.color='#0f8';
- try{
-   sessionStorage.setItem("surokkha_temp","1");
-   localStorage.setItem("surokkha_temp","1");
- }catch(e){}
- setTimeout(()=>{window.location.href="./dashboard.html?v=20";},400);
+function parse(s){
+ s=s.trim(); let low=s.toLowerCase(); let target='project-x'; let base=s;
+ if(low.endsWith('-backup')||low.endsWith(' backup')){target='backup'; base=s.replace(/[- ]backup$/i,'').trim();}
+ else if(low.endsWith('-roof')||low.endsWith(' roof')){target='roof'; base=s.replace(/[- ]roof$/i,'').trim();}
+ else if(low.includes('-backup')||low.includes(' backup')){target='backup'; base=s.replace(/[- ]backup/gi,'').trim();}
+ else if(low.includes('-roof')||low.includes(' roof')){target='roof'; base=s.replace(/[- ]roof/gi,'').trim();}
+ base=base.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,''); if(!base) base='project';
+ return {base,target};
 }
-document.addEventListener('keydown',e=>{if(e.key>='0'&&e.key<='9')tap(e.key);if(e.key==='Enter')go();if(e.key==='Backspace')clr();});
-upd();
+function badge(t){
+ if(t==='backup') return '<span class="b red">BACKUP CONNECTED</span>';
+ if(t==='roof') return '<span class="b blue">ROOF CONNECTED</span>';
+ return '<span class="b green">PROJECT-X CONNECTED</span>';
+}
+function connect(){
+ let pn=document.getElementById('pn').value, ps=document.getElementById('ps').value, err=document.getElementById('err');
+ err.style.display='none';
+ if(!pn.trim()||!ps.trim()){err.textContent='⚠️ দুটোই লিখ';err.style.display='block';return;}
+ let p=parse(pn), s=parse(ps);
+ if(p.base.length<2||s.base.length<2){err.textContent='⚠️ কমপক্ষে ২ অক্ষর';err.style.display='block';return;}
+ document.getElementById('c1').textContent=p.base; document.getElementById('c2').textContent=s.base;
+ document.getElementById('c1t').textContent='→ '+(p.target==='backup'?'BACKUP':p.target==='roof'?'ROOF':'PROJECT-X');
+ document.getElementById('c1t').className='b '+(p.target==='backup'?'red':p.target==='roof'?'blue':'green');
+ document.getElementById('c2t').textContent='→ '+(s.target==='backup'?'BACKUP':s.target==='roof'?'ROOF':'STEP');
+ document.getElementById('c2t').className='b '+(s.target==='backup'?'red':s.target==='roof'?'blue':'green');
+ document.getElementById('mode').textContent=(p.target+'+'+s.target).toUpperCase();
+
+ let pPath='', sPath='', cmd='';
+ if(p.target==='backup'){ pPath=`${p.base}/backup/`; cmd+=`mkdir -p ${p.base}/backup\n`; }
+ else if(p.target==='roof'){ pPath=`(ROOF ROOT)`; cmd+=`# Roof connected\n`; }
+ else { pPath=`${p.base}/`; cmd+=`mkdir -p ${p.base}\n`; }
+
+ if(s.target==='backup'){ sPath=`${p.base}/backup/${s.base}/`; cmd+=`mkdir -p ${p.base}/backup/${s.base}\n`; }
+ else if(s.target==='roof'){ sPath=`${s.base}/`; cmd+=`mkdir -p ${s.base}\n`; }
+ else { sPath=`${p.base}/${s.base}/`; cmd+=`mkdir -p ${p.base}/${s.base}\n`; }
+
+ document.getElementById('badges').innerHTML=badge(p.target)+' '+badge(s.target);
+ document.getElementById('pbox').innerHTML=`<div class="path">📁 PROJECT: ~/projectsurokkha-x/${pPath}</div><div class="path">📁 STEP: ~/projectsurokkha-x/${sPath}</div>`;
+ document.getElementById('links').innerHTML=`
+ <div class="item"><b>${p.base}</b><br><a href="./${p.base}/">Open Project</a></div>
+ <div class="item"><b>${s.base}</b><br><a href="./${sPath}">Open Step</a></div>
+ <div class="item"><b>Backup</b><br><a href="./${p.base}/backup/${s.base}/">Open Backup</a></div>
+ <div class="item"><b>Roof</b><br><a href="./">Roof Home</a></div>
+ `;
+ document.getElementById('cmd').textContent=`cd ~/projectsurokkha-x\n${cmd}echo "[OK] ${p.base} -> ${p.target.toUpperCase()}"\necho "[OK] ${s.base} -> ${s.target.toUpperCase()}"\nls -R ${p.base} 2>/dev/null || ls -la`;
+ document.getElementById('res').style.display='block';
+}
+document.getElementById('pn').addEventListener('input',e=>{let p=parse(e.target.value);document.getElementById('c1').textContent=p.base||'{project}';document.getElementById('c1t').textContent='→ '+(p.target==='backup'?'BACKUP':p.target==='roof'?'ROOF':'PROJECT-X');document.getElementById('c1t').className='b '+(p.target==='backup'?'red':p.target==='roof'?'blue':'green');});
+document.getElementById('ps').addEventListener('input',e=>{let s=parse(e.target.value);document.getElementById('c2').textContent=s.base||'{step}';document.getElementById('c2t').textContent='→ '+(s.target==='backup'?'BACKUP':s.target==='roof'?'ROOF':'STEP');document.getElementById('c2t').className='b '+(s.target==='backup'?'red':s.target==='roof'?'blue':'green');});
+fetch('./').then(r=>r.text()).then(html=>{let m=[...html.matchAll(/href="([^"]+\/)"[^>]*>/g)].map(x=>x[1]).filter(h=>!h.startsWith('http')&&!h.includes('backup')&&h!=='./'&&h!=='../');let list=document.getElementById('projList');if(m.length){list.innerHTML=m.slice(0,8).map(h=>`<div class="item"><b>${h.replace('/','')}</b><br><a href="${h}">Open</a></div>`).join('');}else{list.innerHTML='<div class="item">কোন প্রজেক্ট এখনো নাই - উপরে নাম লিখে CONNECT চাপ দাও</div>';}}).catch(()=>{document.getElementById('projList').innerHTML='<div class="item">proyojon-x<br><a href="./proyojon-x/">Open</a></div>';});
 </script></body></html>
