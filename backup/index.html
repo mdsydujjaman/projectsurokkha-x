@@ -1,21 +1,79 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BACKUP LAB</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f8;min-height:100vh;padding:12px}header{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #0f83a} .b{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800}.red{background:#f003;border:1px solid #f0033;color:#ff6b8a}.green{background:#0f82;border:1px solid #0f84;color:#0f8}.card{border:1px solid #0f83;background:#0a0a0a;border-radius:12px;padding:16px;margin-top:14px}input{width:100%;background:#000;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;margin-top:6px}input:focus{border-color:#0f8}label{font-size:11px;letter-spacing:.2em;opacity:.8}button{width:100%;background:#0f8;color:#000;border:0;border-radius:12px;padding:14px;font-weight:900;letter-spacing:.15em;margin-top:14px}pre{background:#000;border:1px solid #222;border-radius:8px;padding:12px;font-size:11px;color:#aaa;white-space:pre-wrap;margin-top:10px}</style></head><body>
-<header><b>🔐 BACKUP LAB</b><span class="b red">ROOF DISCONNECTED</span></header>
-<div style="margin-top:10px;font-size:11px;opacity:.7">Termux > projectsurokkha-x > <span id="c1" style="background:#0f82;padding:2px 6px;border-radius:4px">{project}</span> > backup > <span id="c2" style="background:#111;border:1px solid #333;padding:2px 6px;border-radius:4px">{step}</span></div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BACKUP LAB v4 - SMART CONNECT</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f8;min-height:100vh;padding:12px}header{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #333}.b{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800}.red{background:#f003;border:1px solid #f33;color:#ff6b8a}.green{background:#0f82;border:1px solid #0f84;color:#0f8}.blue{background:#03f3;border:1px solid #36f;color:#6bf}.yellow{background:#ff03;border:1px solid #fa0;color:#fd0}.card{border:1px solid #333;background:#0a0a0a;border-radius:12px;padding:14px;margin-top:12px}input{width:100%;background:#000;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;margin-top:6px;font-size:13px}input:focus{border-color:#0f8}label{font-size:11px;letter-spacing:.1em;opacity:.9}button{width:100%;background:#0f8;color:#000;border:0;border-radius:12px;padding:14px;font-weight:900;margin-top:12px}pre{background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;color:#aaa;white-space:pre-wrap;margin-top:10px}.row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.path{font-size:11px;padding:8px;background:#000;border:1px dashed #444;border-radius:6px;color:#fff;word-break:break-all}.hint{font-size:10px;opacity:.5;margin-top:4px;line-height:1.4}</style></head><body>
+<header><b>🔐 LAB v4 - SMART</b><span class="b yellow" id="mode">AUTO CONNECT</span></header>
+<div style="font-size:11px;margin-top:10px;line-height:1.6;background:#111;border-radius:8px;padding:10px;border:1px solid #222">
+<div><b>কিভাবে লিখবে:</b></div>
+<div>• <span style="color:#ff6b8a">proyojon-x-backup</span> বা <span style="color:#ff6b8a">proyojon-x backup</span> → backup কানেক্ট</div>
+<div>• <span style="color:#6bf">proyojon-x-roof</span> বা <span style="color:#6bf">proyojon-x roof</span> → roof কানেক্ট</div>
+<div>• <span style="color:#0f8">proyojon-x</span> → projectsurokkha-x এ কানেক্ট (default)</div>
+<div style="margin-top:6px;border-top:1px dashed #333;padding-top:6px">• <span style="color:#ff6b8a">registration-backup</span> → step backup কানেক্ট</div>
+<div>• <span style="color:#6bf">registration roof</span> → step roof কানেক্ট</div>
+</div>
+<div style="margin-top:10px;font-size:11px">
+<div>📁 Termux > projectsurokkha-x > <span id="c1" style="background:#0f82;padding:2px 6px;border-radius:4px">{project}</span> <span id="c1t" class="b green">→ PROJECT-X</span></div>
+<div style="margin-left:16px">└── <span id="c2" style="background:#111;border:1px solid #333;padding:2px 6px;border-radius:4px">{step}</span> <span id="c2t" class="b green">→ STEP</span></div>
+</div>
 <div class="card">
-<label>project name:</label><input id="pn" placeholder="এখানে যে প্রজেক্টে কাজ করব সেই প্রজেক্টের নাম দিব">
-<label style="margin-top:10px;display:block">project step:</label><input id="ps" placeholder="এখানে সেই প্রজেক্টের স্টেপ থাকলে সেই প্রজেক্টের স্টেপ লিখব">
-<button onclick="go()">🔒 SECURE BACKUP NOW</button>
-<div id="err" style="display:none;color:#f66;font-size:11px;margin-top:10px"></div>
+<label>project name + target:</label><input id="pn" placeholder="proyojon-x, proyojon-x-backup, proyojon-x roof">
+<div class="hint">শেষে -backup / backup লিখলে backup কানেক্ট, -roof / roof লিখলে roof কানেক্ট</div>
+<label style="margin-top:10px;display:block">project step + target:</label><input id="ps" placeholder="registration, registration-backup, registration roof">
+<div class="hint">একই ভাবে step এর পাশে backup বা roof লিখলে সেই অনুযায়ী কানেক্ট</div>
+<button onclick="go()">🔒 SMART CONNECT NOW</button>
+<div id="err" style="display:none;color:#f66;font-size:11px;margin-top:8px"></div>
 </div>
 <div id="res" class="card" style="display:none">
-<div style="display:flex;gap:6px"><span class="b green">ROOF LOCKED ✓</span><span class="b green">BACKUP SECURED ✓</span></div>
-<div id="pth" style="margin-top:10px;background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;color:#fff;word-break:break-all"></div>
+<div class="row" id="badges"></div>
+<div id="pbox"></div>
 <pre id="cmd"></pre>
 <button onclick="navigator.clipboard.writeText(document.getElementById('cmd').innerText);alert('Copied!')" style="background:#111;color:#0f8;border:1px solid #0f84">COPY COMMANDS</button>
-<div style="margin-top:10px;font-size:10px;opacity:.4">টারমেক্স সরাসরি roof থেকে বিচ্ছিন্ন</div>
 </div>
 <script>
-function s(t){return t.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,'')}
-function go(){let pn=document.getElementById('pn').value,ps=document.getElementById('ps').value,e=document.getElementById('err');e.style.display='none';if(!pn.trim()||!ps.trim()){e.textContent='⚠️ project name এবং step দুটোই দাও';e.style.display='block';return}let n=s(pn),st=s(ps);document.getElementById('c1').textContent=n;document.getElementById('c2').textContent=st;let path=`~/projectsurokkha-x/${n}/backup/${st}/`;let cmd=`cd ~/projectsurokkha-x\nmkdir -p ${n}/backup/${st}\ncd ${n}/backup/${st}\necho "# ${n} - ${st}" > README.md\nls -la`;document.getElementById('pth').textContent=path;document.getElementById('cmd').textContent=cmd;document.getElementById('res').style.display='block';}
-document.getElementById('pn').addEventListener('input',e=>{document.getElementById('c1').textContent=s(e.target.value)||'{project}'});document.getElementById('ps').addEventListener('input',e=>{document.getElementById('c2').textContent=s(e.target.value)||'{step}'});
+function parse(s){
+ s=s.trim(); let low=s.toLowerCase();
+ let target='project-x'; let base=s;
+ if(low.endsWith('-backup')||low.endsWith(' backup')){target='backup'; base=s.replace(/[- ]backup$/i,'').trim();}
+ else if(low.endsWith('-roof')||low.endsWith(' roof')){target='roof'; base=s.replace(/[- ]roof$/i,'').trim();}
+ else if(low.includes('-backup')||low.includes(' backup')){target='backup'; base=s.replace(/[- ]backup/gi,'').trim();}
+ else if(low.includes('-roof')||low.includes(' roof')){target='roof'; base=s.replace(/[- ]roof/gi,'').trim();}
+ base=base.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,'');
+ if(!base) base='project';
+ return {base,target,raw:s};
+}
+function badge(t){
+ if(t==='backup') return '<span class="b red">BACKUP CONNECTED</span>';
+ if(t==='roof') return '<span class="b blue">ROOF CONNECTED</span>';
+ return '<span class="b green">PROJECT-X CONNECTED</span>';
+}
+function pathFor(p,t,s, st){
+ if(t==='backup') return `~/projectsurokkha-x/${p.base}/backup/${s.base}/`;
+ if(t==='roof') return `~/projectsurokkha-x/${s.base}/`;
+ return `~/projectsurokkha-x/${p.base}/${s.base}/`;
+}
+function go(){
+ let pn=document.getElementById('pn').value, ps=document.getElementById('ps').value, err=document.getElementById('err');
+ err.style.display='none';
+ if(!pn.trim()||!ps.trim()){err.textContent='⚠️ দুটোই লিখ';err.style.display='block';return;}
+ let p=parse(pn), s=parse(ps);
+ if(p.base.length<2||s.base.length<2){err.textContent='⚠️ কমপক্ষে ২ অক্ষর';err.style.display='block';return;}
+ document.getElementById('c1').textContent=p.base;
+ document.getElementById('c2').textContent=s.base;
+ let pBadge=p.target==='backup'?'BACKUP':p.target==='roof'?'ROOF':'PROJECT-X';
+ let sBadge=s.target==='backup'?'BACKUP':s.target==='roof'?'ROOF':'STEP';
+ document.getElementById('c1t').textContent='→ '+pBadge; document.getElementById('c1t').className='b '+(p.target==='backup'?'red':p.target==='roof'?'blue':'green');
+ document.getElementById('c2t').textContent='→ '+sBadge; document.getElementById('c2t').className='b '+(s.target==='backup'?'red':s.target==='roof'?'blue':'green');
+ document.getElementById('mode').textContent=p.target.toUpperCase()+' + '+s.target.toUpperCase();
+ let p1='',p2='',p3='',cmd='';
+ if(p.target==='backup'){ p1=`~/projectsurokkha-x/${p.base}/backup/`; cmd+=`mkdir -p ${p.base}/backup\n`;}
+ else if(p.target==='roof'){ p1=`~/projectsurokkha-x/ (ROOF)`; cmd+=`# Roof connected - no new project folder, using root\n`;}
+ else { p1=`~/projectsurokkha-x/${p.base}/`; cmd+=`mkdir -p ${p.base}\n`;}
+ if(s.target==='backup'){ p2=`~/projectsurokkha-x/${p.base}/backup/${s.base}/`; cmd+=`mkdir -p ${p.base}/backup/${s.base}\necho "# ${p.base} ${s.base} backup" > ${p.base}/backup/${s.base}/README.md\n`;}
+ else if(s.target==='roof'){ p2=`~/projectsurokkha-x/${s.base}/ (ROOF)`; cmd+=`mkdir -p ${s.base}\necho "<!-- ${s.base} roof -->" > ${s.base}/index.html\n`;}
+ else { p2=`~/projectsurokkha-x/${p.base}/${s.base}/`; cmd+=`mkdir -p ${p.base}/${s.base}\necho "<!-- ${s.base} -->" > ${p.base}/${s.base}/index.html\n`;}
+ document.getElementById('badges').innerHTML=badge(p.target)+' '+badge(s.target);
+ document.getElementById('pbox').innerHTML=`<div class="path">📁 PROJECT: ${p1}</div><div class="path">📁 STEP: ${p2}</div>`;
+ let full=`cd ~/projectsurokkha-x\n${cmd}ls -R ${p.base} 2>/dev/null || ls -la\necho "[OK] ${p.base} -> ${p.target.toUpperCase()} CONNECTED"\necho "[OK] ${s.base} -> ${s.target.toUpperCase()} CONNECTED"`;
+ document.getElementById('cmd').textContent=full;
+ document.getElementById('res').style.display='block';
+}
+document.getElementById('pn').addEventListener('input',e=>{let p=parse(e.target.value);document.getElementById('c1').textContent=p.base||'{project}';document.getElementById('c1t').textContent='→ '+(p.target==='backup'?'BACKUP':p.target==='roof'?'ROOF':'PROJECT-X');document.getElementById('c1t').className='b '+(p.target==='backup'?'red':p.target==='roof'?'blue':'green');});
+document.getElementById('ps').addEventListener('input',e=>{let s=parse(e.target.value);document.getElementById('c2').textContent=s.base||'{step}';document.getElementById('c2t').textContent='→ '+(s.target==='backup'?'BACKUP':s.target==='roof'?'ROOF':'STEP');document.getElementById('c2t').className='b '+(s.target==='backup'?'red':s.target==='roof'?'blue':'green');});
 </script></body></html>
