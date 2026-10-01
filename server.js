@@ -1,21 +1,12 @@
-import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const path = require('path');
 const app = express();
+
 app.use(express.static(__dirname));
-app.use(express.json());
-const BFILE=path.join(__dirname,'history.json');const JFILE=path.join(__dirname,'jobs.json');const GFILE=path.join(__dirname,'github.json');
-function load(f){try{return JSON.parse(fs.readFileSync(f,'utf-8'))}catch(e){return []}};function save(f,d){fs.writeFileSync(f,JSON.stringify(d,null,2))};
-app.get('/api/history',(r,s)=>s.json(load(BFILE)));
-app.get('/api/jobs',(r,s)=>s.json(load(JFILE)));
-app.get('/api/github',(r,s)=>s.json(load(GFILE)));
-app.get('/api/audit',(r,s)=>s.json({location:'backup/backup-v4-bridge', main_safe:'YES ✅ B001 proyojon-new Safe', live:'backup-v4-bridge [] empty - Ready for projectsurokkha-x', port:3001}));
-app.post('/api/backup',(req,res)=>{
- let jobs=load(JFILE); const project=(req.body.project||'projectsurokkhax').trim(); const step=(req.body.step||'Step-4').trim();
- const jobId=`JOB-${Date.now()}`; jobs.unshift({id:jobId, project, step, status:'WAITING', created_at:new Date().toISOString()}); save(JFILE,jobs);
- res.json({ok:true, jobId});
-});
-app.listen(3001,'0.0.0.0',()=>console.log('LIVE 3001 READY - Main B001 Safe | Backup Folder [] Ready'));
+app.use('/backup', express.static(path.join(__dirname, 'backup')));
+
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/backup', (req, res) => res.sendFile(path.join(__dirname, 'backup/index.html')));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Live on ${PORT}`));
