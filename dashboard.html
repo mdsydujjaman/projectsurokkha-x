@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><script>(function(){try{var q=new URLSearchParams(location.search);var b=q.get("unlock")==="1234";var ok=sessionStorage.getItem("surokkha_temp")||localStorage.getItem("surokkha_temp")||b;if(!ok){location.replace("./index.html?v=21");return;}sessionStorage.removeItem("surokkha_temp");localStorage.removeItem("surokkha_temp");}catch(e){}})();</script>
+<head>
+<script>(function(){try{const ok=sessionStorage.getItem("surokkha_temp");if(!ok){location.replace("./index.html");}else{sessionStorage.removeItem("surokkha_temp");}}catch(e){location.replace("./index.html");}})();</script>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PROJECT SUROKKHA-X — www.projectsurokkha.com</title>
