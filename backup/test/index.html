@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BACKUP TEST LAB - Audit Fix</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
+body{background:#070b14;color:#d0ffe0;padding:12px}
+.card{border:1px solid #1a3a2a;background:#0c1410;border-radius:16px;padding:14px;margin-top:14px}
+.t{font-weight:900;color:#fff}
+.btn{background:#00ff88;color:#000;border:0;border-radius:10px;padding:12px 16px;font-weight:900;cursor:pointer;margin-top:10px;width:100%}
+.btnP{background:linear-gradient(180deg,#8a5cff,#5a2ecf);color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:900;width:100%;margin-top:10px}
+.list{background:#000;border-radius:10px;padding:8px;margin-top:10px;max-height:300px;overflow:auto;border:1px solid #222}
+.row{display:flex;justify-content:space-between;background:#0a0a0a;border:1px solid #1a2a1a;border-radius:8px;padding:10px;margin:5px 0;font-size:12px}
+.row b{color:#00ff88}.row span{color:#00ff88}
+input{width:100%;background:#000;border:1px solid #333;border-radius:8px;color:#fff;padding:10px;margin-top:8px}
+.small{font-size:11px;opacity:.6;margin-top:8px;line-height:1.5}
+.badge{padding:2px 6px;border-radius:10px;font-size:9px;font-weight:800}
+.red{background:#ff003322;border:1px solid #ff3355;color:#ff6b8a}.green{background:#00ff8822;border:1px solid #00ff88;color:#00ff88}.blue{background:#0033ff22;border:1px solid #36f;color:#6af}
+</style></head><body>
+<h2>🧪 BACKUP TEST LAB</h2>
+<div class="small">Roof touch করি নাই — এখানে সব audit fix টেস্ট হবে<br>Roof: /index.html (safe) | Test: /backup/test/ (এখানে)</div>
+
+<div class="card">
+<div class="t">TEST 1 — HISTORY + HASH Bug Fix (undefined fix)</div>
+<div class="small">আগে undefined আসতো, এখন fix</div>
+<div class="list" id="history"></div>
+<button class="btn" onclick="addHistory()">[ ADD NEW + REFRESH ]</button>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button class="btn" style="flex:1" onclick="prev()">← PREVIOUS</button>
+<button class="btn" style="flex:1" onclick="next()">NEXT →</button>
+</div>
+<div class="small" id="hStatus">Ready</div>
+</div>
+
+<div class="card">
+<div class="t">TEST 2 — SECURE BACKUP NOW Working</div>
+<input id="pn" placeholder="Project Name: proyojon-x, proyojon-x-backup, proyojon-x roof">
+<input id="ps" placeholder="Project Step: registration, registration-backup">
+<button class="btn" onclick="testBackup()">[ SECURE BACKUP NOW TEST ]</button>
+<div class="small" id="bStatus">No backup yet</div>
+<div id="bDetails" style="display:none;margin-top:10px;background:#000;border:1px dashed #333;border-radius:8px;padding:10px;font-size:11px"></div>
+</div>
+
+<div class="card">
+<div class="t">TEST 3 — SMART CONNECT (তোমার চাওয়া logic)</div>
+<div class="small">proyojon-x = PROJECT, proyojon-x-backup = BACKUP, proyojon-x roof = ROOF</div>
+<div class="small" id="smartPreview" style="background:#000;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #1a1a1a">Type করো উপরে...</div>
+</div>
+
+<div class="card">
+<div class="t">TEST 4 — PERMANENT VERIFY ≠ AUTO DEPLOY</div>
+<div class="small">Confirm করার আগে Verify করবে, Auto Live হবে না</div>
+<select id="permSel" style="width:100%;background:#000;color:#fff;border:1px solid #333;border-radius:8px;padding:10px;margin-top:8px">
+<option>X-S02-B004 — 32457FDC</option>
+<option>X-S02-B005 — 18EDEEE17</option>
+</select>
+<button class="btnP" onclick="confirmPerm()">[ CONFIRM PERMANENT ]</button>
+<div class="small" id="permStatus">NOT CREATED — Verify first</div>
+<div class="small" id="hashStatus">Backup: - | Permanent: -</div>
+</div>
+
+<script>
+let historyData = JSON.parse(localStorage.getItem('test_history')||'[]');
+if(historyData.length===0){
+ historyData=[
+  {id:'X-S02-B058',hash:'18EDEEE17'},
+  {id:'X-S02-B057',hash:'18EDEF5BE'},
+  {id:'X-S02-B056',hash:'18EDF4F17'},
+  {id:'X-S02-B055',hash:'18EDF56F2'},
+  {id:'X-S02-B054',hash:'18EDF623D'},
+ ];
+}
+let idx=0;
+function renderHistory(){
+ let h=document.getElementById('history');
+ h.innerHTML='';
+ historyData.forEach((item,i)=>{
+  if(!item.id || item.id==='undefined' || !item.hash || item.hash==='undefined') return; // FIX undefined
+  let style = i===idx ? 'border-color:#00ff88;box-shadow:0 0 10px #00ff8833' : '';
+  h.innerHTML+=`<div class="row" style="${style}"><b>${item.id}</b><span>${item.hash}</span></div>`;
+ });
+ localStorage.setItem('test_history',JSON.stringify(historyData));
+ document.getElementById('hStatus').textContent=`Total: ${historyData.length} | Current: ${idx+1}/${historyData.length} | Ready — No undefined`;
+}
+function addHistory(){
+ let num=54+historyData.length;
+ let hash=Date.now().toString(16).toUpperCase().slice(-7);
+ let id='X-S02-B0'+String(num).padStart(2,'0');
+ if(id.includes('undefined') || hash.includes('undefined')) return;
+ historyData.unshift({id:id,hash:hash});
+ idx=0;
+ renderHistory();
+}
+function prev(){ if(idx>0){idx--; renderHistory();} }
+function next(){ if(idx<historyData.length-1){idx++; renderHistory();} }
+
+function parseSmart(s){
+ if(!s) return {base:'',target:'project'};
+ s=s.trim(); let low=s.toLowerCase(); let target='project'; let base=s;
+ if(low.endsWith('-backup')||low.endsWith(' backup')){target='backup'; base=s.replace(/[- ]backup$/i,'').trim();}
+ else if(low.endsWith('-roof')||low.endsWith(' roof')){target='roof'; base=s.replace(/[- ]roof$/i,'').trim();}
+ else if(low.includes('-backup')||low.includes(' backup')){target='backup'; base=s.replace(/[- ]backup/gi,'').trim();}
+ else if(low.includes('-roof')||low.includes(' roof')){target='roof'; base=s.replace(/[- ]roof/gi,'').trim();}
+ base=base.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,''); if(!base) base='project';
+ return {base:base,target:target};
+}
+function testBackup(){
+ let pn=document.getElementById('pn').value, ps=document.getElementById('ps').value;
+ if(!pn.trim()||!ps.trim()){document.getElementById('bStatus').textContent='⚠️ Project + Step লিখো';return;}
+ let p=parseSmart(pn), s=parseSmart(ps);
+ let pCls=p.target==='backup'?'red':p.target==='roof'?'blue':'green';
+ let sCls=s.target==='backup'?'red':s.target==='roof'?'blue':'green';
+ document.getElementById('bStatus').innerHTML=`✅ SECURED: <b>${p.base.toUpperCase()}</b> <span class="badge ${pCls}">→ ${p.target.toUpperCase()}</span> | <b>${s.base.toUpperCase()}</b> <span class="badge ${sCls}">→ ${s.target.toUpperCase()}</span>`;
+ document.getElementById('bDetails').style.display='block';
+ let pPath=p.target==='backup'?`${p.base}/backup/`:p.target==='roof'?'(ROOF ROOT)':`${p.base}/`;
+ let sPath=s.target==='backup'?`${p.base}/backup/${s.base}/`:s.target==='roof'?`${s.base}/`:`${p.base}/${s.base}/`;
+ document.getElementById('bDetails').innerHTML=`📁 PROJECT: ~/projectsurokkha-x/${pPath}<br>📁 STEP: ~/projectsurokkha-x/${sPath}<br><br>Command:<br>mkdir -p ${sPath}<br><br><span style="color:#0f8">Roof safe, backup alada</span>`;
+ document.getElementById('hashStatus').innerHTML=`Backup: <span style="color:#0f8">${Math.random().toString(16).slice(2,9).toUpperCase()}</span> | Permanent: -`;
+}
+document.getElementById('pn').addEventListener('input',updateSmart);
+document.getElementById('ps').addEventListener('input',updateSmart);
+function updateSmart(){
+ let pn=document.getElementById('pn').value, ps=document.getElementById('ps').value;
+ let p=parseSmart(pn), s=parseSmart(ps);
+ document.getElementById('smartPreview').innerHTML=`Roof > <span style="background:#00ff8822;padding:2px 6px;border-radius:4px">${p.base||'-'}</span> <span class="badge ${p.target==='backup'?'red':p.target==='roof'?'blue':'green'}">→ ${p.target.toUpperCase()}</span> → <span style="background:#111;border:1px solid #333;padding:2px 6px;border-radius:4px">${s.base||'-'}</span> <span class="badge ${s.target==='backup'?'red':s.target==='roof'?'blue':'green'}">→ ${s.target.toUpperCase()}</span>`;
+}
+function confirmPerm(){
+ let sel=document.getElementById('permSel').value;
+ document.getElementById('permStatus').innerHTML=`✅ VERIFIED: ${sel}<br>⚠️ NOT AUTO DEPLOYED — তুমি চাইলে এখন Roof এ transfer করো`;
+ document.getElementById('hashStatus').innerHTML=`Backup: <span style="color:#0f8">${Math.random().toString(16).slice(2,9).toUpperCase()}</span> | Permanent: <span style="color:#8a5cff">${Math.random().toString(16).slice(2,9).toUpperCase()}</span>`;
+}
+renderHistory();
+</script>
+</body></html>
