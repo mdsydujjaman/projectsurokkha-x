@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-<script>(function(){try{const ok=(sessionStorage.getItem("surokkha_temp") || new URLSearchParams(location.search).get("unlock")==="1234" || localStorage.getItem("surokkha_temp"));if(!ok){(new URLSearchParams(location.search).get("unlock")==="1234"? (sessionStorage.setItem("surokkha_temp","1"),true) : location.replace("./index.html"));}else{sessionStorage.removeItem("surokkha_temp");}}catch(e){location.replace("./index.html");}})();</script>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-
+<head><script>(function(){try{const b=new URLSearchParams(location.search).get("unlock")==="1234";const f=sessionStorage.getItem("surokkha_temp")||localStorage.getItem("surokkha_temp")||b;if(!f){location.replace("./index.html");return;}if(b)sessionStorage.setItem("surokkha_temp","1");sessionStorage.removeItem("surokkha_temp");}catch(e){}})();window.addEventListener("pagehide",()=>{try{sessionStorage.removeItem("surokkha_temp")}catch(e){}});</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PROJECT SUROKKHA-X — www.projectsurokkha.com</title>
@@ -23,7 +20,7 @@
 .item{display:flex;justify-content:space-between;background:#0a0a0f;border:1px solid #1f2937;border-radius:10px;padding:8px;margin:5px 0}
 </style>
 </head>
-<body>
+<body><div style="display:flex;justify-content:space-between;align-items:center;padding:8px 4px;margin-bottom:8px"><span style="color:#00ff88;font-size:11px">🔓 UNLOCKED - ORIGINAL DASHBOARD</span><button onclick="localStorage.removeItem(`surokkha_temp`);sessionStorage.removeItem(`surokkha_temp`);location.replace(`./index.html`)" style="background:#222;color:#fff;border:1px solid #444;padding:6px 12px;border-radius:8px;font-size:11px">🔒 Lock Now</button></div>
 <div class="hdr">
   <div class="logo">🔐 PROJECT <span id="logoName">SUROKKHA-X</span></div>
   <div class="badge"><span class="dot"></span> UNLOCKED 🔓 — EDITABLE — 58cdccd</div>
