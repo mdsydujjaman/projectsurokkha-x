@@ -1,0 +1,15 @@
+{
+  "inputName": "surokkha",
+  "inputStep": "FINAL-V2-LOCKED",
+  "autoMatched": "projectsurokkha-x",
+  "finalProjectName": "projectsurokkha-x",
+  "finalStep": "FINAL-V2-LOCKED",
+  "existingSteps": [
+    ".git",
+    ".vercel",
+    "backup",
+    "node_modules"
+  ],
+  "time": "2026-10-01T15:57:29.627Z",
+  "targetDir": "/data/data/com.termux/files/home/projectsurokkha-x/backup/test/PROJECTSUROKKHA-X/FINAL-V2-LOCKED"
+}
