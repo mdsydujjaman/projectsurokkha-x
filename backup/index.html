@@ -1,34 +1,21 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>SUROKKHA-X SECURE v20</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#00ff88;font-family:monospace;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.lock{border:2px solid #00ff88;border-radius:20px;padding:28px;width:92%;max-width:360px;text-align:center;background:#0a0a0a}
-h1{font-size:24px}.sub{color:#666;font-size:10px;margin:10px 0 18px}
-.dots{display:flex;gap:14px;justify-content:center;margin:18px 0}.dot{width:16px;height:16px;border:2px solid #00ff88;border-radius:50%}.dot.on{background:#00ff88;box-shadow:0 0 8px #00ff88}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-button{height:60px;background:#151515;border:1px solid #2a2a2a;border-radius:14px;color:#fff;font-size:22px;font-weight:bold}
-button:active{background:#00ff88;color:#000}button.ok{background:#00ff88;color:#000;font-weight:900}
-#msg{height:20px;margin-top:16px;font-size:12px;color:#888}
-</style></head><body>
-<div class="lock"><h1>🔐 SUROKKHA-X</h1><div class="sub">SECURE VAULT</div>
-<div class="dots"><div class="dot" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div></div>
-<div class="pad"><button onclick="tap('1')">1</button><button onclick="tap('2')">2</button><button onclick="tap('3')">3</button><button onclick="tap('4')">4</button><button onclick="tap('5')">5</button><button onclick="tap('6')">6</button><button onclick="tap('7')">7</button><button onclick="tap('8')">8</button><button onclick="tap('9')">9</button><button onclick="clr()">C</button><button onclick="tap('0')">0</button><button class="ok" onclick="go()">OK</button></div>
-<div id="msg">ENTER PIN</div></div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BACKUP LAB</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f8;min-height:100vh;padding:12px}header{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #0f83a} .b{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800}.red{background:#f003;border:1px solid #f0033;color:#ff6b8a}.green{background:#0f82;border:1px solid #0f84;color:#0f8}.card{border:1px solid #0f83;background:#0a0a0a;border-radius:12px;padding:16px;margin-top:14px}input{width:100%;background:#000;border:1px solid #333;border-radius:10px;color:#fff;padding:12px;margin-top:6px}input:focus{border-color:#0f8}label{font-size:11px;letter-spacing:.2em;opacity:.8}button{width:100%;background:#0f8;color:#000;border:0;border-radius:12px;padding:14px;font-weight:900;letter-spacing:.15em;margin-top:14px}pre{background:#000;border:1px solid #222;border-radius:8px;padding:12px;font-size:11px;color:#aaa;white-space:pre-wrap;margin-top:10px}</style></head><body>
+<header><b>🔐 BACKUP LAB</b><span class="b red">ROOF DISCONNECTED</span></header>
+<div style="margin-top:10px;font-size:11px;opacity:.7">Termux > projectsurokkha-x > <span id="c1" style="background:#0f82;padding:2px 6px;border-radius:4px">{project}</span> > backup > <span id="c2" style="background:#111;border:1px solid #333;padding:2px 6px;border-radius:4px">{step}</span></div>
+<div class="card">
+<label>project name:</label><input id="pn" placeholder="এখানে যে প্রজেক্টে কাজ করব সেই প্রজেক্টের নাম দিব">
+<label style="margin-top:10px;display:block">project step:</label><input id="ps" placeholder="এখানে সেই প্রজেক্টের স্টেপ থাকলে সেই প্রজেক্টের স্টেপ লিখব">
+<button onclick="go()">🔒 SECURE BACKUP NOW</button>
+<div id="err" style="display:none;color:#f66;font-size:11px;margin-top:10px"></div>
+</div>
+<div id="res" class="card" style="display:none">
+<div style="display:flex;gap:6px"><span class="b green">ROOF LOCKED ✓</span><span class="b green">BACKUP SECURED ✓</span></div>
+<div id="pth" style="margin-top:10px;background:#000;border:1px solid #222;border-radius:8px;padding:10px;font-size:11px;color:#fff;word-break:break-all"></div>
+<pre id="cmd"></pre>
+<button onclick="navigator.clipboard.writeText(document.getElementById('cmd').innerText);alert('Copied!')" style="background:#111;color:#0f8;border:1px solid #0f84">COPY COMMANDS</button>
+<div style="margin-top:10px;font-size:10px;opacity:.4">টারমেক্স সরাসরি roof থেকে বিচ্ছিন্ন</div>
+</div>
 <script>
-let pin="";
-function upd(){for(let i=0;i<4;i++)document.getElementById('d'+i).className=i<pin.length?'dot on':'dot';document.getElementById('msg').innerText=pin?'*'.repeat(pin.length):'ENTER PIN';}
-function tap(n){if(pin.length>=4)return;pin+=n;upd();}
-function clr(){pin="";upd();}
-function go(){
- let m=document.getElementById('msg');
- if(pin.length!=4){m.innerText='ENTER 4 DIGITS';m.style.color='#f44';return;}
- if(pin!=="1234"){m.innerText='ACCESS DENIED';m.style.color='#f44';pin="";setTimeout(()=>{m.style.color='#888';upd();},800);return;}
- m.innerText='ACCESS GRANTED';m.style.color='#0f8';
- try{
-   sessionStorage.setItem("surokkha_temp","1");
-   localStorage.setItem("surokkha_temp","1");
- }catch(e){}
- setTimeout(()=>{window.location.href="./dashboard.html?v=20";},400);
-}
-document.addEventListener('keydown',e=>{if(e.key>='0'&&e.key<='9')tap(e.key);if(e.key==='Enter')go();if(e.key==='Backspace')clr();});
-upd();
+function s(t){return t.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-_]/g,'')}
+function go(){let pn=document.getElementById('pn').value,ps=document.getElementById('ps').value,e=document.getElementById('err');e.style.display='none';if(!pn.trim()||!ps.trim()){e.textContent='⚠️ project name এবং step দুটোই দাও';e.style.display='block';return}let n=s(pn),st=s(ps);document.getElementById('c1').textContent=n;document.getElementById('c2').textContent=st;let path=`~/projectsurokkha-x/${n}/backup/${st}/`;let cmd=`cd ~/projectsurokkha-x\nmkdir -p ${n}/backup/${st}\ncd ${n}/backup/${st}\necho "# ${n} - ${st}" > README.md\nls -la`;document.getElementById('pth').textContent=path;document.getElementById('cmd').textContent=cmd;document.getElementById('res').style.display='block';}
+document.getElementById('pn').addEventListener('input',e=>{document.getElementById('c1').textContent=s(e.target.value)||'{project}'});document.getElementById('ps').addEventListener('input',e=>{document.getElementById('c2').textContent=s(e.target.value)||'{step}'});
 </script></body></html>
