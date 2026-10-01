@@ -67,17 +67,18 @@ function secureBackup(){
   let d=projName+'-'+Date.now();
   let h=hash(d);
   let checkpoint=`X-S02-B${String(backups.length+1).padStart(3,'0')}`;
-  backups.unshift({hash:h,checkpoint,time:new Date().toISOString()});
+  backups.unshift({hash:h,checkpoint,time:new Date().toISOString(),project:projName,step:projStep});
   localStorage.setItem('sx_backups',JSON.stringify(backups));
-  document.getElementById('bHash').innerHTML='<span class=ok>'+checkpoint+' | '+h+'</span>';
+  document.getElementById('bHash').innerHTML='<span class=ok>'+checkpoint+' | '+h+' | '+projName+'/'+projStep+' — Auto Connecting...</span>';
   refreshHistory();
-  fetch('/api/backup',{method:'POST',headers:{'Content-Type':'text/plain'},body:d});
+  fetch('/api/secure-backup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectName:projName,projectStep:projStep,hash:h,checkpoint})}).then(r=>r.json()).then(data=>{
+    if(data.ok){
+      document.getElementById('bHash').innerHTML='<span class=ok>✅ '+checkpoint+' | '+h+'<br>📁 Auto Connected: '+data.info.termuxPath+'<br>👉 cd '+data.info.termuxPath+'</span>';
+    }
+  });
+  fetch('/api/backup',{method:'POST',headers:{'Content-Type':'text/plain'},body:d}).catch(()=>{});
 }
-function refreshHistory(){
-  if(!backups.length){document.getElementById('history').innerHTML='No backup';document.getElementById('chk').innerHTML='<option>No checkpoint</option>';return}
-  document.getElementById('history').innerHTML=backups.map(b=>`<div class="item"><span>${b.checkpoint}</span><span>${b.hash}</span></div>`).join('');
-  document.getElementById('chk').innerHTML=backups.map(b=>`<option value="${b.hash}">${b.checkpoint} — ${b.hash}</option>`).join('');
-}
+
 function verifyHash(){
   let sel=document.getElementById('chk').value;
   if(!sel) return;
