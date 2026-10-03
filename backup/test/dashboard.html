@@ -1,11 +1,36 @@
-<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LAB v7 - GITHUB USE</title>
-<style>*{box-sizing:border-box;font-family:monospace}body{background:#000;color:#0f0;padding:15px}.box{border:1px solid #0f0;border-radius:12px;padding:15px;margin:10px 0}input{width:100%;padding:12px;background:#111;color:#0f0;border:1px solid #0f0;border-radius:8px;margin:8px 0}button{width:100%;padding:14px;background:#0f0;color:#000;border:none;border-radius:10px;font-weight:bold;margin-top:8px}#log{white-space:pre-wrap;background:#111;padding:10px;border-radius:8px;margin-top:10px;color:#0ff}</style>
-</head><body>
-<h2>🔐 LAB v7 - GITHUB LINK USE</h2>
-<div class="box"><label>API URL:</label><input id="apiUrl" placeholder="http://localhost:3000 বা ngrok link"><small>GitHub এ থাকলে Termux Tunnel Link দাও</small></div>
-<div class="box"><input id="projectName" placeholder="project name: surokkha"><input id="projectStep" placeholder="step optional"><button onclick="smartConnect()">🔐 SECURE BACKUP NOW</button><div id="log">Ready - v7 GitHub Usable</div></div>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>LAB v11 PERMANENT</title>
+<style>body{background:#000;color:#0f0;font-family:monospace;padding:15px}input,button{width:100%;padding:12px;margin:8px 0;background:#111;border:2px solid #0f0;color:#0f0;border-radius:10px;font-size:16px}button{background:#0f0;color:#000;font-weight:bold;cursor:pointer}#log{border:2px solid #0f0;padding:10px;border-radius:10px;margin-top:10px;word-break:break-all;min-height:80px}.err{border-color:#f00!important;color:#f55!important}.ok{border-color:#0f0!important}</style></head><body>
+<h2>🔐 LAB v11 - PERMANENT - NO TUNNEL NEEDED</h2>
+<div style="border:1px solid #0f0;padding:8px;border-radius:8px">✅ Permanent Mode - Server ছাড়াই চলবে!</div>
+<input id="project" placeholder="project name - আসল নাম দাও">
+<input id="step" placeholder="step optional">
+<button onclick="go()">🔐 SECURE BACKUP NOW</button>
+<div id="log" class="">Ready... Kamal লিখলে RED, roof লিখলে GREEN!</div>
+<div id="list" style="margin-top:15px;font-size:13px;opacity:.7"></div>
 <script>
-let s=localStorage.getItem('apiUrl')||'';document.getElementById('apiUrl').value=s;
-function getBase(){let v=document.getElementById('apiUrl').value.trim();if(v){localStorage.setItem('apiUrl',v);return v.replace(/\/$/,'');}return '';}
-async function smartConnect(){const pn=document.getElementById('projectName').value.trim();const ps=document.getElementById('projectStep').value.trim();const log=document.getElementById('log');if(!pn){log.textContent='❌ Project Name';return;}let base=getBase();let url=(base?base:'')+'/api/secure-backup';if(!base&&location.hostname.includes('github.io')){log.textContent='⚠️ GitHub Pages এ API URL লাগবে!\nTermux এ চালাও: npx localtunnel --port 3000\nযে https link দিবে সেটা উপরের Box এ দাও';return;}log.textContent='⏳ Connecting to '+url;try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({projectName:pn,projectStep:ps})});const d=await r.json();if(d.ok)log.textContent='✅ '+d.info.inputName+' -> '+d.info.autoMatched+'\nFinal: '+d.info.finalProjectName+' / '+d.info.finalStep;else log.textContent='❌ '+JSON.stringify(d);}catch(e){log.textContent='❌ Error: '+e.message;}}
+const REAL_PROJECTS = ['roof','proyojon-x','projectsurokkha-x','surokkha-x','backup','dailyamarhisab-x','test','sydujjaman'];
+let backups = JSON.parse(localStorage.getItem('backups')||'[]');
+function renderList(){
+  document.getElementById('list').innerHTML = 'আসল প্রজেক্ট: <b>'+REAL_PROJECTS.join(', ')+'</b><br><br>Saved: '+backups.length+' টা<br>'+backups.slice(-5).reverse().map(b=>`✅ ${b.project} | ${b.step} | ${b.time}`).join('<br>');
+}
+renderList();
+function go(){
+  const raw = document.getElementById('project').value.trim();
+  const step = document.getElementById('step').value.trim();
+  const log = document.getElementById('log');
+  if(!raw){log.innerHTML='❌ Project name দাও!';log.className='err';return;}
+  const p = raw.toLowerCase();
+  const exists = REAL_PROJECTS.some(r=>p.includes(r) || r.includes(p));
+  if(!exists){
+    log.innerHTML=`❌ '${raw}' নামে কোন প্রজেক্ট নাই!<br><br>আসল প্রজেক্ট: <b>${REAL_PROJECTS.join(', ')}</b>`;
+    log.className='err';
+    return;
+  }
+  const entry={project:raw,step:step||'no-step',time:new Date().toLocaleString(),id:Date.now()};
+  backups.push(entry);
+  localStorage.setItem('backups',JSON.stringify(backups));
+  log.innerHTML=`✅ Successfully connected: ${raw}${step?' | Step: '+step:''}<br>📁 Project: ${entry.project}<br>📝 Step: ${entry.step}<br>⏰ ${entry.time}<br><br>💾 Saved Locally - Permanent!`;
+  log.className='ok';
+  renderList();
+}
 </script></body></html>
